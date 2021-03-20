@@ -34,6 +34,5 @@ by Hri7566
 */
 
 require('dotenv').config({path: '.env'})
-
 const Bot7566 = require('./src');
 Bot7566.start();
