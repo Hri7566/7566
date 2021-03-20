@@ -15,6 +15,12 @@ module.exports = class Client extends EventEmitter {
         evtcb(this.client, this);
 
         this.bindEventListeners();
+
+        bot.prefixes.forEach(p => {
+            if (p.attached) {
+                this.addPrefix(p.prefix);
+            }
+        });
     }
 
     addPrefix(str) {
