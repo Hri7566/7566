@@ -21,8 +21,10 @@ module.exports = class MPPClient extends Client {
                 msg.argcat = msg.a.substr(msg.args[0].length);
                 bot.prefixes.forEach(prefix => {
                     if (!msg.a.startsWith(prefix.prefix)) return;
-                    if (prefix.attached) {
+                    msg.prefix = prefix;
+                    if (!prefix.attached) {
                         msg.cmd = msg.args[1];
+                        if (msg.cmd == undefined) msg.cmd == '';
                         msg.args = msg.argcat.split(' ');
                         msg.argcat = msg.a.substr(msg.args[0].length + 1 + msg.cmd.length);
                     } else {
@@ -33,10 +35,10 @@ module.exports = class MPPClient extends Client {
             });
 
             m.on('error', err => {
-                this.logger.error(err.message);
+                this.logger.error(err.message + `\n${err.stack}`);
                 // console.error(err);
             });
-        }, `MPP] [${name}`);
+        }, `MPP] [${name}`, 'mpp');
 
         this.userSettings = {
             name: '7566 | h!help',
