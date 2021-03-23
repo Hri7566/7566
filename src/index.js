@@ -9,16 +9,29 @@ const DiscordClient = require('./discord');
 const MPPClient = require('./mpp');
 
 module.exports = class Bot {
-    static wss = new WSServer(8443);
     static clients = new Register();
 
     static logger = new Logger('7566');
 
     static prefixes = require('./prefixes');
 
-    static start() {
-        this.logger.log('Starting...');
+    static config = {
+        mpp: {
+            allowUserset: true
+        },
+        discord: {
 
+        },
+        wss: {
+            port: 8080
+        }
+    }
+
+    static wss = new WSServer(this.config.wss.port);
+
+    static start(config) {
+        typeof(config) == 'object' ? this.config = config : this.config = this.config;
+        this.logger.log('Starting...');
         let mpplist = require('./mpplist');
 
         Object.keys(mpplist).forEach(uri => {

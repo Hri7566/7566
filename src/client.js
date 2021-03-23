@@ -49,7 +49,7 @@ module.exports = class Client extends EventEmitter {
         });
 
         this.on('chat', msg => {
-            
+            console.log(`${msg.p._id.substr(0, 6)} | ${msg.p.name}: ${msg.a}`);
         });
     }
 }
