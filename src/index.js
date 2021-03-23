@@ -13,10 +13,15 @@ const MPPClient = require('./mpp');
 
 const CommandRegister = require('../lib/CommandRegister');
 
+const UserRegister = require('../lib/UserRegister');
+const User = require('../lib/User');
+const Rank = require('../lib/Rank')
+
 module.exports = class Bot {
     static clients = new Register();
     static logger = new Logger('7566');
     static prefixes = require('./prefixes');
+    static userdata = require('./users.json');
 
     static config = {
         mpp: {
@@ -51,9 +56,11 @@ module.exports = class Bot {
         });
 
         this.loadCommands();
+        this.loadUserData();
 
         process.on('SIGINT', signal => {
             this.logger.log(`SIGINT received.`);
+            this.save();
             setTimeout(() => {
                 process.exit(127);
             }, 10);
@@ -76,7 +83,33 @@ module.exports = class Bot {
         });
     }
 
+    static loadUserData() {
+        Registry.setRegister(new UserRegister(this.userdata));
+    }
+
+    static getUser(msg) {
+        let user = Registry.getRegister('user').get(msg.p._id);
+        if (typeof(user) !== 'undefined') {
+            return user;
+        } else {
+            return new User(msg.p.name, msg.p._id, msg.p.color, new Rank())
+        }
+    }
+
     static getRank(msg) {
-        return {_id: 0, name: 'None'};
+        let rank = this.getUser(msg).rank;
+        if (typeof(rank) == 'undefined') {
+            this.getUser(msg).rank = Rank.getRankFromName('user');
+            rank = this.getUser(msg).rank;
+        }
+        return rank;
+    }
+
+    static save() {
+        this.saveUserData();
+    }
+
+    static saveUserData() {
+        fs.writeFileSync(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data));
     }
 }

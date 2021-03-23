@@ -57,15 +57,37 @@ module.exports = class Client extends EventEmitter {
 
             msg.rank = this._bot.getRank(msg);
 
-            Registry.getRegister('commands').data.forEach(nsid => {
-                let cmd = Registry.getRegister('commands').data[nsid];
+            Object.keys(Registry.getRegister('command').data).forEach(nsid => {
+                let cmd = Registry.getRegister('command').data[nsid];
                 if (msg.rank._id < cmd.minimumRank || msg.rank._id < 0) return;
-                if (msg.prefix.attached) {
-                    if (msg.args.length - 2 <= cmd.minimumArguments) return;
-                } else {
-                    if (msg.args.length - 1 <= cmd.minimumArguments) return;
+                if (msg.args.length - 1 < cmd.minimumArguments) return;
+                let cont = false;
+                
+                cmd.aliases.forEach(alias => {
+                    if (msg.cmd == alias) cont = true;
+                });
+                
+                if (msg.cmd == cmd.name) {
+                    cont = true
+                };
+
+                if (cont) {
+                    let out;
+                    try {
+                        out = cmd.func(msg, this, msg.context);
+                    } catch (err) {
+                        out = 'Error; check log for details';
+                        this.logger.error(err);
+                    }
+                    if (out !== null && typeof(out) !== 'undefined' && out !== '') {
+                        this.sendChat(out);
+                    }
                 }
             });
         });
+    }
+
+    sendChat(str) {
+        return;
     }
 }

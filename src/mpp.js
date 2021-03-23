@@ -18,11 +18,16 @@ module.exports = class MPPClient extends Client {
 
             m.on('a', msg => {
                 msg.args = msg.a.split(' ');
-                msg.argcat = msg.a.substr(msg.args[0].length);
+                msg.argcat = msg.a.substr(msg.args[0].length).trim();
+                msg.prefix = {
+                    attached: false,
+                    prefix: null
+                };
                 bot.prefixes.forEach(prefix => {
                     if (!msg.a.startsWith(prefix.prefix)) return;
                     msg.prefix = prefix;
                     if (!prefix.attached) {
+                        if (!msg.args[1]) return;
                         msg.cmd = msg.args[1];
                         if (msg.cmd == undefined) msg.cmd == '';
                         msg.args = msg.argcat.split(' ');
@@ -44,5 +49,9 @@ module.exports = class MPPClient extends Client {
             name: '7566 | h!help',
             color: "#22b76d"
         }
+    }
+
+    sendChat(str) {
+        this.client.sendArray([{m:'a', message:`\u034f${str}`}]);
     }
 }
