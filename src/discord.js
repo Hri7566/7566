@@ -50,6 +50,7 @@ module.exports = class DiscordClient extends Client {
     }
 
     sendChat(str) {
+        if (typeof(str) == 'string') str = `\u034f${str}`;
         this.currentmsg.channel.send(str);
     }
 }
