@@ -96,24 +96,33 @@ module.exports = class Bot {
         if (typeof(user) !== 'undefined') {
             return user;
         } else {
-            return new User(msg.p.name, msg.p._id, msg.p.color, new Rank())
+            let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
+            Registry.getRegister('user').add(msg.p._id, newuser);
+            this.save();
+            return newuser;
         }
     }
 
     static getRank(msg) {
         let rank = this.getUser(msg).rank;
-        if (typeof(rank) == 'undefined') {
-            this.getUser(msg).rank = Rank.getRankFromName('user');
+        if (typeof(rank._id) == 'undefined') {
+            Registry.registers['user'].data[msg.p._id].rank = Rank.getRankFromName('none');
             rank = this.getUser(msg).rank;
         }
         return rank;
     }
 
     static save() {
+        this.logger.log('Saving...');
         this.saveUserData();
     }
 
     static saveUserData() {
-        fs.writeFileSync(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data));
+        fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
+            if (err) {
+                this.logger.error(err);
+            }
+            this.logger.log('User data saved.');
+        });
     }
 }

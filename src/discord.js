@@ -7,6 +7,10 @@ module.exports = class DiscordClient extends Client {
         var dcl = new Discord.Client();
         super(bot, dcl, (m, c) => {
             dcl.login(token);
+
+            dcl.on('ready', () => {
+                this.logger.log("Started");
+            });
             
             dcl.on('message', msg => {
                 this.currentmsg = msg;
@@ -45,8 +49,6 @@ module.exports = class DiscordClient extends Client {
                 send: () => {}
             }
         };
-
-        this.logger.log('Online');
     }
 
     sendChat(str) {

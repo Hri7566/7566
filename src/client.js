@@ -2,6 +2,7 @@ const { EventEmitter } = require('events');
 const Logger = require('../lib/Logger');
 const Registry = require('../lib/Registry');
 const CommandRegister = require('../lib/CommandRegister');
+const Command = require('../lib/Command');
 const fs = require('fs');
 const path = require('path');
 
@@ -59,8 +60,6 @@ module.exports = class Client extends EventEmitter {
 
             Object.keys(Registry.getRegister('command').data).forEach(nsid => {
                 let cmd = Registry.getRegister('command').data[nsid];
-                if (msg.rank._id < cmd.minimumRank || msg.rank._id < 0) return;
-                if (msg.args.length - 1 < cmd.minimumArguments) return;
                 let cont = false;
                 
                 cmd.aliases.forEach(alias => {
@@ -70,8 +69,10 @@ module.exports = class Client extends EventEmitter {
                 if (msg.cmd == cmd.name) {
                     cont = true
                 };
-
+                
                 if (cont) {
+                    if (msg.rank._id < cmd.minimumRank || msg.rank._id < 0) return this.sendChat('Permission denied.');
+                    if (msg.args.length - 1 < cmd.minimumArguments) return this.sendChat(`Not enough arguments. Usage: ${Command.getExample(cmd, msg.prefix)}`);
                     let out;
                     try {
                         out = cmd.func(msg, this, msg.context);

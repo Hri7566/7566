@@ -1,5 +1,9 @@
 const Command = require('../../lib/Command');
 
 module.exports = new Command('test', (msg, bot, context) => {
-    return `test!`;
+    let ret = `test!`;
+    if (msg.args[1]) {
+        ret += ` args: ${msg.args.join(' | ')}`;
+    }
+    return ret;
 }, `PREFIXtest`, 0, 0, false, []);
