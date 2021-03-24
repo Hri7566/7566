@@ -17,6 +17,7 @@ module.exports = class MPPClient extends Client {
             });
 
             m.on('a', msg => {
+                msg.context = 'mpp';
                 msg.args = msg.a.split(' ');
                 msg.argcat = msg.a.substr(msg.args[0].length).trim();
                 msg.prefix = {
@@ -29,7 +30,7 @@ module.exports = class MPPClient extends Client {
                     if (!prefix.attached) {
                         if (!msg.args[1]) return;
                         msg.cmd = msg.args[1];
-                        if (msg.cmd == undefined) msg.cmd == '';
+                        if (msg.cmd == undefined) msg.cmd = '';
                         msg.args = msg.argcat.split(' ');
                         msg.argcat = msg.a.substr(msg.args[0].length + 1 + msg.cmd.length);
                     } else {

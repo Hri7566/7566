@@ -42,18 +42,22 @@ module.exports = class Bot {
         this.logger.log('Starting...');
         let mpplist = require('./mpplist');
 
+        Registry.setRegister(new ClientRegister());
+
         Object.keys(mpplist).forEach(uri => {
             let rooms = mpplist[uri];
             Object.keys(rooms).forEach(name => {
                 let room = rooms[name];
                 try {
                     let cl = new MPPClient(this, name, uri, room._id, room.proxy);
-                    Registry.setRegister(new ClientRegister(cl));
+                    Registry.getRegister('client').add(cl);
                 } catch (err) {
                     this.logger.error('Error adding client: ' + err.message);
                 }
             });
         });
+
+        Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
 
         this.loadCommands();
         this.loadUserData();

@@ -1,12 +1,25 @@
 const Command = require('../../lib/Command');
 const Registry = require('../../lib/Registry');
+const Discord = require('discord.js');
 
 module.exports = new Command('help', (msg, bot, context) => {
     let cmds = Registry.getRegister('command').data;
     if (!msg.args[1]) {
         let ret = '';
         if (context == 'discord') {
-            
+            ret = new Discord.MessageEmbed()
+                .setTitle('7566')
+                .setDescription('Help');
+            Object.keys(cmds).forEach(id => {
+                let cmd = cmds[id];
+                if (cmd.hidden) return;
+                if (msg.rank._id < cmd.minimumRank) return;
+                if (msg.prefix.attached) {
+                    ret.addField(`${msg.prefix.prefix}${cmd.name}`, Command.getExample(cmd, msg.prefix));
+                } else {
+                    ret.addField(`${msg.prefix.prefix} ${cmd.name}`, Command.getExample(cmd, msg.prefix));
+                }
+            });
         } else {
             ret = `Commands: `;
             Object.keys(cmds).forEach(id => {
