@@ -15,9 +15,9 @@ module.exports = new Command('help', (msg, bot, context) => {
                 if (cmd.hidden) return;
                 if (msg.rank._id < cmd.minimumRank) return;
                 if (msg.prefix.attached) {
-                    ret.addField(`${msg.prefix.prefix}${cmd.name}`, Command.getExample(cmd, msg.prefix));
+                    ret.addField(`${msg.prefix.prefix}${cmd.name}`, "Usage: " + Command.getExample(cmd, msg.prefix));
                 } else {
-                    ret.addField(`${msg.prefix.prefix} ${cmd.name}`, Command.getExample(cmd, msg.prefix));
+                    ret.addField(`${msg.prefix.prefix} ${cmd.name}`, "Usage: " + Command.getExample(cmd, msg.prefix));
                 }
             });
         } else {

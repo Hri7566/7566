@@ -29,11 +29,13 @@ module.exports = class MPPClient extends Client {
                     msg.prefix = prefix;
                     if (!prefix.attached) {
                         if (!msg.args[1]) return;
+                        if (msg.args[0] !== prefix.prefix) return;
                         msg.cmd = msg.args[1];
                         if (msg.cmd == undefined) msg.cmd = '';
                         msg.args = msg.argcat.split(' ');
                         msg.argcat = msg.a.substr(msg.args[0].length + 1 + msg.cmd.length);
                     } else {
+                        if (!msg.args[0].startsWith(prefix.prefix)) return;
                         msg.cmd = msg.args[0].substr(prefix.prefix.length);
                     }
                 });

@@ -37,6 +37,10 @@ module.exports = class Bot {
 
     static wss = new WSServer(this.config.wss.port);
 
+    static saveInterval = setInterval(() => {
+        this.save();
+    }, 60000);
+
     static start(config) {
         typeof(config) == 'object' ? this.config = config : this.config = this.config;
         this.logger.log('Starting...');
