@@ -4,19 +4,11 @@
         "attached": true
     },
     {
-        "prefix": "hri",
-        "attached": false
-    },
-    {
         "prefix": "h!",
         "attached": true
     },
     {
-        "prefix": "7566!",
+        "prefix": "7!",
         "attached": true
-    },
-    {
-        "prefix": "7",
-        "attached": false
     }
 ]

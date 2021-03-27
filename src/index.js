@@ -93,6 +93,16 @@ module.exports = class Bot {
 
     static loadUserData() {
         Registry.setRegister(new UserRegister(this.userdata));
+
+        Object.keys(Registry.getRegister('user').data).forEach(id => {
+            let user = Registry.getRegister('user').data[id];
+            let nu = new User(user.name, user._id, user.color, user.rank);
+            Object.keys(nu).forEach(pr => {
+                if (typeof(user[pr]) == 'undefined') {
+                    user[pr] = nu[pr];
+                }
+            });
+        });
     }
 
     static getUser(msg) {
@@ -105,6 +115,10 @@ module.exports = class Bot {
             this.save();
             return newuser;
         }
+    }
+
+    static getUserById(_id) {
+        return this.getUser({p:{_id: _id}});
     }
 
     static getRank(msg) {

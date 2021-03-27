@@ -39,12 +39,23 @@ module.exports = class MPPClient extends Client {
                         msg.cmd = msg.args[0].substr(prefix.prefix.length);
                     }
                 });
+
+                m.on('participant added', p => {
+                    bot.getUserById(p._id);
+                });
+                
                 c.emit('chat', msg);
             });
 
             m.on('error', err => {
                 this.logger.error(err.message + `\n${err.stack}`);
                 // console.error(err);
+
+                m.stop();
+                this.logger.log(`Rejoining in 5s...`);
+                setTimeout(() => {
+                    m.start();
+                }, 5000);
             });
         }, `MPP] [${name}`, 'mpp');
 

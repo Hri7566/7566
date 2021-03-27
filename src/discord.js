@@ -5,7 +5,7 @@ const User = require('../lib/User');
 module.exports = class DiscordClient extends Client {
     constructor (bot, token) {
         var dcl = new Discord.Client();
-        super(bot, dcl, (m, c) => {
+        super(bot, dcl, (dcl, c) => {
             dcl.login(token);
 
             dcl.on('ready', () => {
