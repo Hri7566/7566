@@ -17,6 +17,9 @@ const UserRegister = require('../lib/UserRegister');
 const User = require('../lib/User');
 const Rank = require('../lib/Rank')
 
+const Shop = require('./Shop');
+const ItemRegister = require('../lib/ItemRegister');
+
 module.exports = class Bot {
     static clients = new Register();
     static logger = new Logger('7566');
@@ -38,7 +41,11 @@ module.exports = class Bot {
     static wss = new WSServer(this.config.wss.port);
 
     static saveInterval = setInterval(() => {
-        this.save();
+        this.save(err => {
+            if (err) {
+                this.warn(`Save unsuccessful.`);
+            }
+        });
     }, 60000);
 
     static start(config) {
@@ -65,14 +72,18 @@ module.exports = class Bot {
 
         this.loadCommands();
         this.loadUserData();
+        this.loadItems();
+        Shop.init();
 
         process.on('SIGINT', signal => {
             this.logger.log(`SIGINT received.`);
-            this.save();
-            setTimeout(() => {
-                process.exit(127);
-            }, 10);
+            this.save(() => {
+                setTimeout(() => {
+                    process.exit(127);
+                }, 1500);
+            });
         });
+
     }
 
     static loadCommands() {
@@ -105,6 +116,27 @@ module.exports = class Bot {
         });
     }
 
+    static loadItems() {
+        Registry.setRegister(new ItemRegister());
+
+        fs.readdir(path.join(__dirname, 'items'), 'utf8', (err, files) => {
+            if (err) {
+                this.logger.error('Unable to load items: ' + err);
+                return;
+            }
+            files.forEach(file => {
+                if (!file.endsWith('.js')) return;
+                try {
+                    let item = require(path.join(__dirname, 'items', file));
+                    let itemname = file.substr(0, file.indexOf('.js'));
+                    Registry.getRegister('item').add(itemname, item);
+                } catch (err) {
+                    this.logger.error('Unable to load item: ' + err);
+                }
+            });
+        });
+    }
+
     static getUser(msg) {
         let user = Registry.getRegister('user').get(msg.p._id);
         if (typeof(user) !== 'undefined') {
@@ -112,7 +144,7 @@ module.exports = class Bot {
         } else {
             let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
             Registry.getRegister('user').add(msg.p._id, newuser);
-            this.save();
+            this.save(() => {});
             return newuser;
         }
     }
@@ -130,15 +162,21 @@ module.exports = class Bot {
         return rank;
     }
 
-    static save() {
+    static async save(cb) {
         this.logger.log('Saving...');
-        this.saveUserData();
+        try {
+            await this.saveUserData();
+            cb();
+        } catch (err) {
+            cb(err);
+        }
     }
 
-    static saveUserData() {
+    static async saveUserData() {
         fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
             if (err) {
                 this.logger.error(err);
+                return;
             }
             this.logger.log('User data saved.');
         });

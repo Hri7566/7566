@@ -13,6 +13,7 @@ module.exports = class DiscordClient extends Client {
             });
             
             dcl.on('message', msg => {
+                bot.getUser(msg);
                 this.currentmsg = msg;
                 msg.context = 'discord';
                 msg.a = msg.content;

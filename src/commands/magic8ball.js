@@ -25,4 +25,4 @@ const answers = [
 
 module.exports = new Command('magic8ball', (msg, bot, context) => {
     return `${answers[Math.floor(Math.random()*answers.length)]}, ${msg.p.name}.`;
-}, `PREFIXmagic8ball <polar question>`, 1, 0, false, ['8ball']);
+}, `PREFIXmagic8ball <polar question>`, 1, 0, false, ['8ball','8','8b']);
