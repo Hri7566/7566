@@ -13,7 +13,6 @@ module.exports = class DiscordClient extends Client {
             });
             
             dcl.on('message', msg => {
-                bot.getUser(msg);
                 this.currentmsg = msg;
                 msg.context = 'discord';
                 msg.a = msg.content;
@@ -28,6 +27,7 @@ module.exports = class DiscordClient extends Client {
                     attached: false,
                     prefix: null
                 };
+                bot.getUser(msg);
                 bot.prefixes.forEach(prefix => {
                     if (!msg.a.startsWith(prefix.prefix)) return;
                     msg.prefix = prefix;

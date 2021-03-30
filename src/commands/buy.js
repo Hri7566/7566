@@ -1,5 +1,5 @@
 const Command = require('../../lib/Command');
-const Shop = require('../Shop');
+const Registry = require('../../lib/Registry');
 
 let currencySymbol = "H$";
 let currencyStyle = "`${symbol}${amt}`"
@@ -20,12 +20,15 @@ function balanceFormat(b) {
 
 module.exports = new Command('buy', (msg, bot, context) => {
     let getItem;
-    Object.keys(Shop.items).forEach(id => {
-        let item = Shop.items[id];
+    let items = Registry.getRegister('item').data;
+
+    Object.keys(items).forEach(id => {
+        let item = items[id];
         if (msg.argcat.toLowerCase() == item.name.toLowerCase()) {
             getItem = item;
         }
     });
+
     if (typeof(getItem) == 'undefined') {
         return `Could not find item. Is it in the shop?`;
     } else {
@@ -39,4 +42,4 @@ module.exports = new Command('buy', (msg, bot, context) => {
         }
         return `${msg.p.name} bought "${getItem.name}" for ${balanceFormat(getItem.price)}. They now have ${balanceFormat(user.balance)}.`;
     }
-}, `PREFIXtest`, 0, 0, false, []);
+}, `PREFIXbuy <item>`, 1, 0, false, []);

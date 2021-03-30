@@ -1,5 +1,4 @@
 const Command = require('../../lib/Command');
-const Shop = require('../Shop');
 const Registry = require('../../lib/Registry');
 
 let currencySymbol = "H$";

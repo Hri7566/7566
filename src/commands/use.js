@@ -5,11 +5,16 @@ module.exports = new Command('use', (msg, bot, context) => {
     let item;
     let ret;
 
+    if (typeof(user) == 'undefined') return;
+
     Object.keys(user.inventory).forEach(name => {
-        if (user.inventory[name].name.toLowerCase() == msg.argcat.toLowerCase()) {
-            item = user.inventory[name];
+        let i = user.inventory[name];
+        if (i.name.toLowerCase() == msg.argcat.toLowerCase()) {
+            item = i;
         }
     });
+
+    console.log(item);
 
     if (item) {
         ret = item.useFunc(msg, bot, context);

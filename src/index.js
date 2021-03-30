@@ -17,7 +17,6 @@ const UserRegister = require('../lib/UserRegister');
 const User = require('../lib/User');
 const Rank = require('../lib/Rank')
 
-const Shop = require('./Shop');
 const ItemRegister = require('../lib/ItemRegister');
 
 module.exports = class Bot {
@@ -73,7 +72,6 @@ module.exports = class Bot {
         this.loadCommands();
         this.loadUserData();
         this.loadItems();
-        Shop.init();
 
         process.on('SIGINT', signal => {
             this.logger.log(`SIGINT received.`);

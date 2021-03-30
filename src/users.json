@@ -19,9 +19,16 @@
             "name": "Owner",
             "_id": 4
         },
-        "inventory": {},
-        "balance": 0,
-        "lastClaimed": 0
+        "balance": 200,
+        "lastClaimed": 0,
+        "inventory": {
+            "apple": {
+                "name": "apple",
+                "count": 0,
+                "inShop": true,
+                "price": 10
+            }
+        }
     },
     "2b1865e29243e211acb84704": {
         "name": "๖ۣۜＩｎｔｅｌ",
@@ -92,8 +99,8 @@
             "_id": 0
         },
         "inventory": {},
-        "balance": 0,
-        "lastClaimed": 0
+        "balance": 100,
+        "lastClaimed": 1617073149447
     },
     "822226085591777330": {
         "name": "7566 (Development)",
@@ -4577,6 +4584,150 @@
     },
     "a37bb281d276ab354a8a74aa": {
         "_id": "a37bb281d276ab354a8a74aa",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "95ede88dea8a7aba95ad4cc7": {
+        "_id": "95ede88dea8a7aba95ad4cc7",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "f7fb113cb149e556d335e452": {
+        "_id": "f7fb113cb149e556d335e452",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "65358712f4f288adfc5ccad3": {
+        "_id": "65358712f4f288adfc5ccad3",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "27411067c6ac89f27cf27bb3": {
+        "_id": "27411067c6ac89f27cf27bb3",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "dd3d2207ba967d645d3ec8ca": {
+        "_id": "dd3d2207ba967d645d3ec8ca",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "1cd364fc4e22bc9a1554fb1b": {
+        "_id": "1cd364fc4e22bc9a1554fb1b",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "875ada9d8905f17b187d038f": {
+        "_id": "875ada9d8905f17b187d038f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "aa7dbee2a84f4da1992fc770": {
+        "_id": "aa7dbee2a84f4da1992fc770",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "444931594759962624": {
+        "name": "charsy",
+        "_id": "444931594759962624",
+        "color": "#f1c40f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "707359017252683896": {
+        "name": "Lamp",
+        "_id": "707359017252683896",
+        "color": "#e91e63",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "f00e1af171ffddde83993ef4": {
+        "_id": "f00e1af171ffddde83993ef4",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "e3b67a6e2c3d6792648757db": {
+        "_id": "e3b67a6e2c3d6792648757db",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "c45898ad026435caaed0a3fd": {
+        "_id": "c45898ad026435caaed0a3fd",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "892a331f2f97d9fb1d7efdbf": {
+        "_id": "892a331f2f97d9fb1d7efdbf",
         "rank": {
             "name": "None",
             "_id": 0
