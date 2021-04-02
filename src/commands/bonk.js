@@ -1,11 +1,9 @@
 const Command = require('../../lib/Command');
-const Filter = require('bad-words');
-
-let filter = new Filter();
 
 module.exports = new Command('bonk', (msg, bot, context) => {
-    let out = `${filter.clean(msg.argcat)}`
-    out = `🔨 ${msg.p.name} bonked ${out}!`;
+    let bro = bot._bot.getUserByAny(msg.argcat).name;
+    if (typeof(bro) == 'undefined') return `Couldn't bonk! User is undefined! bonk crASHHH!!!!!`;
+    out = `🔨 ${msg.p.name} bonked ${bro}!`;
     if (context !== 'discord') return out;
     out = out.split('*').join('\\*');
     out = out.substring(0, 50);

@@ -60,7 +60,7 @@ module.exports = class Bot {
                 let room = rooms[name];
                 try {
                     let cl = new MPPClient(this, name, uri, room._id, room.proxy);
-                    Registry.getRegister('client').add(cl);
+                    Registry.getRegister('client').add(name, cl);
                 } catch (err) {
                     this.logger.error('Error adding client: ' + err.message);
                 }
@@ -145,6 +145,20 @@ module.exports = class Bot {
             this.save(() => {});
             return newuser;
         }
+    }
+
+    static getUserByAny(i) {
+        let out;
+        Object.keys(Registry.getRegister('user').data).forEach(id => {
+            let user = Registry.getRegister('user').data[id];
+            if (typeof(user) == 'undefined') return;
+            if (typeof(user.name) !== 'string') return;
+            if (typeof(user._id) !== 'string') return;
+            if (user.name.includes(i) || user._id.includes(i)) {
+                out = user;
+            }
+        });
+        return out;
     }
 
     static getUserById(_id) {

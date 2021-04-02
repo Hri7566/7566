@@ -19,8 +19,9 @@ module.exports = class DiscordClient extends Client {
                 msg.p = {
                     name: msg.author.username,
                     _id: msg.author.id,
-                    color: msg.member.displayHexColor
+                    color: "#000000"
                 };
+                if (typeof(msg.member) !== 'undefined' && msg.member !== null) msg.p.color = msg.member.displayHexColor;
                 msg.args = msg.a.split(' ');
                 msg.argcat = msg.a.substr(msg.args[0].length).trim();
                 msg.prefix = {
