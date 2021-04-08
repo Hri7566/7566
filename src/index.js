@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const level = require("level");
 
 const Logger = require('../lib/Logger');
 const WSServer = require('./wsserver');
@@ -23,17 +24,17 @@ module.exports = class Bot {
     static clients = new Register();
     static logger = new Logger('7566');
     static prefixes = require('./prefixes');
-    static userdata = require('./users.json');
+    static userdata = level("./users.db");
 
     static config = {
         mpp: {
             allowUserset: true
         },
         discord: {
-
+            enabled: false
         },
         wss: {
-            port: 8080
+            port: 12345
         }
     }
 
@@ -67,10 +68,11 @@ module.exports = class Bot {
             });
         });
 
-        Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
+        if (this.config.discord.enabed) {
+            Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
+        }
 
         this.loadCommands();
-        this.loadUserData();
         this.loadItems();
 
         process.on('SIGINT', signal => {
@@ -100,20 +102,6 @@ module.exports = class Bot {
         });
     }
 
-    static loadUserData() {
-        Registry.setRegister(new UserRegister(this.userdata));
-
-        Object.keys(Registry.getRegister('user').data).forEach(id => {
-            let user = Registry.getRegister('user').data[id];
-            let nu = new User(user.name, user._id, user.color, user.rank);
-            Object.keys(nu).forEach(pr => {
-                if (typeof(user[pr]) == 'undefined') {
-                    user[pr] = nu[pr];
-                }
-            });
-        });
-    }
-
     static loadItems() {
         Registry.setRegister(new ItemRegister());
 
@@ -136,29 +124,16 @@ module.exports = class Bot {
     }
 
     static getUser(msg) {
-        let user = Registry.getRegister('user').get(msg.p._id);
-        if (typeof(user) !== 'undefined') {
+        let user;
+        try {
+            user = this.userdata.get(msg.p._id);
             return user;
-        } else {
+        } catch (err) {
             let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
-            Registry.getRegister('user').add(msg.p._id, newuser);
+            this.userdata.put(msg.p._id, newuser);
             this.save(() => {});
             return newuser;
         }
-    }
-
-    static getUserByAny(i) {
-        let out;
-        Object.keys(Registry.getRegister('user').data).forEach(id => {
-            let user = Registry.getRegister('user').data[id];
-            if (typeof(user) == 'undefined') return;
-            if (typeof(user.name) !== 'string') return;
-            if (typeof(user._id) !== 'string') return;
-            if (user.name.includes(i) || user._id.includes(i)) {
-                out = user;
-            }
-        });
-        return out;
     }
 
     static getUserById(_id) {
@@ -185,12 +160,12 @@ module.exports = class Bot {
     }
 
     static async saveUserData() {
-        fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
-            if (err) {
-                this.logger.error(err);
-                return;
-            }
-            this.logger.log('User data saved.');
-        });
+        // fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
+        //     if (err) {
+        //         this.logger.error(err);
+        //         return;
+        //     }
+        //     this.logger.log('User data saved.');
+        // });
     }
 }
