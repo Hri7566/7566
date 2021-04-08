@@ -24,7 +24,8 @@ module.exports = class Bot {
     static clients = new Register();
     static logger = new Logger('7566');
     static prefixes = require('./prefixes');
-    static userdata = level("./users.db");
+    // static userdata = level("./users.db");
+    static userdata = require('./users.json');
 
     static config = {
         mpp: {
@@ -43,7 +44,8 @@ module.exports = class Bot {
     static saveInterval = setInterval(() => {
         this.save(err => {
             if (err) {
-                this.warn(`Save unsuccessful.`);
+                this.logger.warn(`Save unsuccessful.`);
+                console.error(err);
             }
         });
     }, 60000);
@@ -73,6 +75,7 @@ module.exports = class Bot {
         }
 
         this.loadCommands();
+        this.loadUsers();
         this.loadItems();
 
         process.on('SIGINT', signal => {
@@ -102,6 +105,23 @@ module.exports = class Bot {
         });
     }
 
+    static loadUsers() {
+        Registry.setRegister(new UserRegister(this.userdata));
+
+        // fix outdated user models / broken data
+
+        Object.keys(Registry.getRegister('user').data).forEach(id => {
+            let user = Registry.getRegister('user').data[id];
+            let newUser = new User("Anonymous", "-1", "#000000", Rank.getRankFromName('none'));
+
+            Object.keys(newUser).forEach(key => {
+                if (typeof(user[key]) == 'undefined') {
+                    user[key] = newUser[key];
+                }
+            });
+        });
+    }
+
     static loadItems() {
         Registry.setRegister(new ItemRegister());
 
@@ -124,16 +144,13 @@ module.exports = class Bot {
     }
 
     static getUser(msg) {
-        let user;
-        try {
-            user = this.userdata.get(msg.p._id);
-            return user;
-        } catch (err) {
+        let user = this.userdata[msg.p._id];
+        if (typeof(user) == 'undefined') {
             let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
-            this.userdata.put(msg.p._id, newuser);
+            this.userdata[msg.p._id] = newuser;
             this.save(() => {});
-            return newuser;
         }
+        return this.userdata[msg.p._id];
     }
 
     static getUserById(_id) {
@@ -153,19 +170,19 @@ module.exports = class Bot {
         this.logger.log('Saving...');
         try {
             await this.saveUserData();
-            cb();
+            if (cb) cb();
         } catch (err) {
-            cb(err);
+            if (cb) cb(err);
         }
     }
 
     static async saveUserData() {
-        // fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
-        //     if (err) {
-        //         this.logger.error(err);
-        //         return;
-        //     }
-        //     this.logger.log('User data saved.');
-        // });
+        fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(Registry.getRegister('user').data, null, 4), err => {
+            if (err) {
+                this.logger.error(err);
+                return;
+            }
+            this.logger.log('User data saved.');
+        });
     }
 }

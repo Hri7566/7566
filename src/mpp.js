@@ -1,12 +1,12 @@
 const Client = require('./client');
-const mppclientxt = require('mpp-client-xt')
+const mppclient = require('./mppc');
 
 module.exports = class MPPClient extends Client {
     constructor (bot, name, uri, room, proxy) {
-        var mppcl = new mppclientxt(uri, proxy);
+        var mppcl = new mppclient(uri, proxy);
 
         super(bot, mppcl, (m, c) => {
-            m.start();
+            m.start(process.env.MPPCPASSWORD);
             
             m.on('hi', p => {
                 c.emit('start');
