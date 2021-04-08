@@ -41,6 +41,7 @@ Bot7566.start({
         allowUserset: false
     },
     discord: {
-        token: process.env.DISCORD_TOKEN
+        token: process.env.DISCORD_TOKEN,
+        enabled: true
     }
 });
