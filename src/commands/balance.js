@@ -28,6 +28,9 @@ module.exports = new Command('balance', (msg, bot, context) => {
         }
         if (hasInv) {
             let item = user.inventory[key];
+            if (item.count < 1) {
+                user.inventory[key] = undefined;
+            }
             if (item.count < 2) {
                 invstr += `${item.name} | `
             } else {

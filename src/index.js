@@ -143,18 +143,60 @@ module.exports = class Bot {
         });
     }
 
+    static balanceFormat(b) {
+        try {
+            let currencySymbol = "H$";
+            let currencyStyle = "`${symbol}${amt}`"
+            let amt = b;
+            let symbol = currencySymbol;
+            let parsed = eval(currencyStyle);
+            return parsed;
+        } catch (err) {
+            if (err) {
+                console.error(err);
+                return "MISSINGNO.";
+            }
+        }
+    }
+
     static getUser(msg) {
-        let user = this.userdata[msg.p._id];
+        let user = Registry.getRegister('user').get(msg.p._id);
         if (typeof(user) == 'undefined') {
             let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
             this.userdata[msg.p._id] = newuser;
             this.save(() => {});
         }
-        return this.userdata[msg.p._id];
+        return Registry.getRegister('user').get(msg.p._id);
     }
 
     static getUserById(_id) {
         return this.getUser({p:{_id: _id}});
+    }
+
+    static findUser(str) {
+        let data = Registry.getRegister('user').data;
+
+        let ret;
+
+        for (const id in data) {
+            let user = data[id];
+            if (typeof(user) == 'undefined') return;
+            if (!user.hasOwnProperty('name') || !user.hasOwnProperty('_id')) return;
+            if (user.name.toLowerCase().includes(str.toLowerCase()) || user._id.toLowerCase().includes(str.toLowerCase())) {
+                ret = user;
+            }
+        }
+        
+        return ret;
+    }
+
+    static updateName(p) {
+        try {
+            Registry.getRegister('user').get(p._id).name = p.name;
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
     static getRank(msg) {

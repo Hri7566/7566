@@ -259,26 +259,19 @@
         "lastClaimed": 0
     },
     "4a50b6981d9f08b9675cd49a": {
-        "name": "๖ۣۜH͜r̬i͡7566",
+        "name": "hri",
         "_id": "4a50b6981d9f08b9675cd49a",
         "color": "#8d3f50",
         "rank": {
             "name": "Owner",
             "_id": 4
         },
-        "inventory": {
-            "apple": {
-                "name": "apple",
-                "count": 9,
-                "inShop": true,
-                "price": 10
-            }
-        },
-        "balance": 290,
-        "lastClaimed": 1617468335495
+        "inventory": {},
+        "balance": 400,
+        "lastClaimed": 1617980703904
     },
     "dcdc35d3bbfa352108c61c7e": {
-        "name": "7566 | h!help",
+        "name": "fishing",
         "_id": "dcdc35d3bbfa352108c61c7e",
         "color": "#22f9a6",
         "rank": {
@@ -12853,9 +12846,9 @@
             "_id": 0
         },
         "inventory": {},
-        "balance": 100,
-        "lastClaimed": 1617321014156,
-        "name": "Anonymous",
+        "balance": 200,
+        "lastClaimed": 1617989045690,
+        "name": "TheClayJar",
         "color": "#000000"
     },
     "7d3e883d6ab9109f08a8409f": {
@@ -16936,6 +16929,102 @@
     "829aa1e31b6739fcc60cc89d": {
         "name": "borked user",
         "_id": "829aa1e31b6739fcc60cc89d",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "35333629a7e4d0751facba4c": {
+        "name": "borked user",
+        "_id": "35333629a7e4d0751facba4c",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "f2cd2e4ce18b2d2bdb416989": {
+        "name": "borked user",
+        "_id": "f2cd2e4ce18b2d2bdb416989",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "d0eb0dc295aea20cab641fc4": {
+        "name": "borked user",
+        "_id": "d0eb0dc295aea20cab641fc4",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "0eed283fe24de5acf01e266f": {
+        "name": "borked user",
+        "_id": "0eed283fe24de5acf01e266f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "00fb4479da5cb84f8d30b7e2": {
+        "name": "Qhy ｢ qhelp ｣ ",
+        "_id": "00fb4479da5cb84f8d30b7e2",
+        "color": "#09003c",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
+    },
+    "ba135067c661669576470a69": {
+        "name": "borked user",
+        "_id": "ba135067c661669576470a69",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "e27f3d5f32cb04aad503e91f": {
+        "name": "borked user",
+        "_id": "e27f3d5f32cb04aad503e91f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "990f80cd034082faaa3db830": {
+        "name": "borked user",
+        "_id": "990f80cd034082faaa3db830",
         "rank": {
             "name": "None",
             "_id": 0

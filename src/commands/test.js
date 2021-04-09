@@ -6,4 +6,4 @@ module.exports = new Command('test', (msg, bot, context) => {
         ret += ` args: ${msg.args.join(' | ')}`;
     }
     return ret;
-}, `PREFIXtest`, 0, 0, false, []);
+}, `PREFIXtest`, 0, 0, true, []);

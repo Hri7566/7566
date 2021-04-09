@@ -1,9 +1,9 @@
 const Command = require('../../lib/Command');
 
 module.exports = new Command('bonk', (msg, bot, context) => {
-    let bro = bot._bot.getUserByAny(msg.argcat).name;
-    if (typeof(bro) == 'undefined') return `Couldn't bonk! User is undefined! bonk crASHHH!!!!!`;
-    out = `🔨 ${msg.p.name} bonked ${bro}!`;
+    let bro = bot._bot.findUser(msg.argcat);
+    if (typeof(bro) == 'undefined') return `no!`;
+    out = `🔨 ${msg.p.name} bonked ${bro.name}!`;
     if (context !== 'discord') return out;
     out = out.split('*').join('\\*');
     out = out.substring(0, 50);

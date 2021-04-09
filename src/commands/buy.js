@@ -4,27 +4,36 @@ const Registry = require('../../lib/Registry');
 let currencySymbol = "H$";
 let currencyStyle = "`${symbol}${amt}`"
 
-function balanceFormat(b) {
-    try {
-        let amt = b;
-        let symbol = currencySymbol;
-        let parsed = eval(currencyStyle);
-        return parsed;
-    } catch (err) {
-        if (err) {
-            console.error(err);
-            return "MISSINGNO.";
+module.exports = new Command('buy', (msg, bot, context) => {
+    let items = Registry.getRegister('item').data;
+    let getItem;
+
+    let hasNum;
+    let sellNum = 1;
+
+    if (!isNaN(parseInt(msg.args[msg.args.length-1]))) {
+        hasNum = true;
+        sellNum = parseInt(msg.args[msg.args.length-1]);
+    }
+
+    let itemStr = msg.argcat;
+
+    if (hasNum) {
+        itemStr = msg.argcat.substr(0, msg.argcat.indexOf(msg.args[msg.args.length-1]));
+    }
+    
+    itemStr = itemStr.trim();
+
+    for (let id of Registry.getRegister('user').get(msg.p._id).inventory) {
+        let i = Registry.getRegister('user').get(msg.p._id).inventory[id];
+        if (i.count < 0) {
+            Registry.getRegister('user').get(msg.p._id).inventory[id] = undefined;
         }
     }
-}
-
-module.exports = new Command('buy', (msg, bot, context) => {
-    let getItem;
-    let items = Registry.getRegister('item').data;
 
     Object.keys(items).forEach(id => {
         let item = items[id];
-        if (msg.argcat.toLowerCase() == item.name.toLowerCase()) {
+        if (itemStr.toLowerCase() == item.name.toLowerCase()) {
             getItem = item;
         }
     });
@@ -32,14 +41,16 @@ module.exports = new Command('buy', (msg, bot, context) => {
     if (typeof(getItem) == 'undefined') {
         return `Could not find item. Is it in the shop?`;
     } else {
+        if (!getItem.inShop) return `This item (${getItem.name}) is not for sale.`;
         let user = bot._bot.getUser(msg);
         if (typeof(user) == 'undefined') return `Transaction failed.`;
-        user.balance -= getItem.price;
+        if (user.balance < getItem.price * sellNum) return `Not enough money! Transaction failed.`;
+        user.balance -= getItem.price * sellNum;
         if (typeof(user.inventory[getItem.name]) == 'undefined') {
             user.inventory[getItem.name] = getItem;
         } else {
-            user.inventory[getItem.name].count += 1;
+            user.inventory[getItem.name].count += sellNum;
         }
-        return `${msg.p.name} bought "${getItem.name}" for ${balanceFormat(getItem.price)}. They now have ${balanceFormat(user.balance)}.`;
+        return `${msg.p.name} bought "${getItem.name}" (x${sellNum}) for ${bot._bot.balanceFormat(getItem.price * sellNum)}. They now have ${bot._bot.balanceFormat(user.balance)}.`;
     }
 }, `PREFIXbuy <item>`, 1, 0, false, []);
