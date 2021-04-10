@@ -34,7 +34,7 @@ module.exports = new Command('sell', (msg, bot, context) => {
     }
 
     if (typeof(getItem) == 'undefined') {
-        return `Could not find item. Is it in your inventory?`;
+        return `❌ Could not find item. Is it in your inventory?`;
     } else {
         if (sellNum > getItem.count) sellNum = getItem.count;
         user.balance += getItem.price * sellNum;
@@ -43,6 +43,6 @@ module.exports = new Command('sell', (msg, bot, context) => {
         } else {
             user.inventory[getItem.name].count -= sellNum;
         }
-        return `${msg.p.name} sold ${sellNum} "${getItem.name}" for ${bot._bot.balanceFormat(getItem.price * sellNum)} (${bot._bot.balanceFormat(getItem.price)} a piece). They now have ${bot._bot.balanceFormat(user.balance)}.`;
+        return `✔️ ${msg.p.name} sold ${sellNum} "${getItem.name}" for ${bot._bot.balanceFormat(getItem.price * sellNum)} (${bot._bot.balanceFormat(getItem.price)} a piece). They now have ${bot._bot.balanceFormat(user.balance)}.`;
     }
 }, `PREFIXsell <item>`, 1, 0, false, []);

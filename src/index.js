@@ -164,7 +164,7 @@ module.exports = class Bot {
         if (typeof(user) == 'undefined') {
             let newuser = new User(msg.p.name, msg.p._id, msg.p.color, Rank.getRankFromName('none'));
             this.userdata[msg.p._id] = newuser;
-            this.save(() => {});
+            this.saveUserData();
         }
         return Registry.getRegister('user').get(msg.p._id);
     }

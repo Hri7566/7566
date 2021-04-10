@@ -24,6 +24,8 @@ module.exports = new Command('claim', (msg, bot, context) => {
     let user = bot._bot.getUser(msg);
     let t = Date.now();
 
+    claimAmount = 120 + (Math.floor(Math.random() * 30_00)/100); // 120 - 150
+
     let timeleft = (user.lastClaimed + (claimLength)) - t;
     
     if (timeleft <= 0) {
@@ -33,5 +35,5 @@ module.exports = new Command('claim', (msg, bot, context) => {
         return `${msg.p.name} claimed ${balanceFormat(claimAmount)}. They now have ${balanceFormat(Registry.getRegister('user').data[user._id].balance)}.`;
     }
 
-    return `You can't claim until ${Math.round(timeleft/1000/60/60)} hours from now.`;
+    return `❌ You can't claim until about ${Math.round(timeleft/1000/60/60)} hour(s) from now.`;
 }, `PREFIXclaim`, 0, 0, false, ['daily']);

@@ -259,16 +259,23 @@
         "lastClaimed": 0
     },
     "4a50b6981d9f08b9675cd49a": {
-        "name": "hri",
+        "name": "๖ۣۜH͜r̬i͡7566",
         "_id": "4a50b6981d9f08b9675cd49a",
         "color": "#8d3f50",
         "rank": {
             "name": "Owner",
             "_id": 4
         },
-        "inventory": {},
-        "balance": 400,
-        "lastClaimed": 1617980703904
+        "inventory": {
+            "Hammer": {
+                "name": "Hammer",
+                "count": 1,
+                "inShop": true,
+                "price": 500
+            }
+        },
+        "balance": 0,
+        "lastClaimed": 1618085156360
     },
     "dcdc35d3bbfa352108c61c7e": {
         "name": "fishing",
@@ -17025,6 +17032,30 @@
     "990f80cd034082faaa3db830": {
         "name": "borked user",
         "_id": "990f80cd034082faaa3db830",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "color": "#000000"
+    },
+    "ee57f34262d8f71bf37466bc": {
+        "name": "Hustandant",
+        "_id": "ee57f34262d8f71bf37466bc",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 100,
+        "lastClaimed": 1618085474021,
+        "color": "#000000"
+    },
+    "b7aff9ab5fbff6d7464f9cf1": {
+        "name": "Qhy ｢ qhelp ｣ ",
+        "_id": "b7aff9ab5fbff6d7464f9cf1",
         "rank": {
             "name": "None",
             "_id": 0

@@ -21,7 +21,7 @@ module.exports = new Command('help', (msg, bot, context) => {
                 }
             });
         } else {
-            ret = `Commands: `;
+            ret = `✨ Commands: `;
             Object.keys(cmds).forEach(id => {
                 let cmd = cmds[id];
                 if (cmd.hidden) return;
