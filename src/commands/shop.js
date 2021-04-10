@@ -19,7 +19,7 @@ function balanceFormat(b) {
 }
 
 module.exports = new Command('shop', (msg, bot, context) => {
-    let ret = "Shop: ";
+    let ret = "🛒 Shop: ";
     let items = Registry.getRegister('item').data;
     Object.keys(items).forEach(id => {
         let item = items[id];

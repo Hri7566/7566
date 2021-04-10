@@ -39,12 +39,17 @@ module.exports = class MPPClient extends Client {
                         msg.cmd = msg.args[0].substr(prefix.prefix.length);
                     }
                 });
-
-                m.on('participant added', p => {
-                    bot.getUserById(p._id);
-                });
                 
                 c.emit('chat', msg);
+            });
+
+            m.on('participant added', p => {
+                bot.getUserById(p._id);
+                bot.updateName(p);
+            });
+
+            m.on('participant update', p => {
+                bot.updateName(p);
             });
 
             m.on('error', err => {
