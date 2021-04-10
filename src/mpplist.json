@@ -6,9 +6,6 @@
         "test/awkward": {
             "_id": "test/awkward"
         },
-        "lobby": {
-            "_id": "lobby"
-        },
         "lobby2": {
             "_id": "lobby2"
         }

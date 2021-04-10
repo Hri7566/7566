@@ -17064,5 +17064,16 @@
         "balance": 0,
         "lastClaimed": 0,
         "color": "#000000"
+    },
+    "0a0d1669e95d61713d178353": {
+        "name": "Anonymous",
+        "_id": "0a0d1669e95d61713d178353",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0
     }
 }
