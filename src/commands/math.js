@@ -4,10 +4,10 @@ const math = require('mathjs');
 module.exports = new Command("math", (msg, bot, context) => {
     let ret = "";
     try {
-        ret = `${math.evaluate(msg.argcat)}`;
+        ret = `🔢 ${math.evaluate(msg.argcat)}`;
     } catch (err) {
         if (err) {
-            ret = "Impossible.";
+            ret = "🔢 Impossible.";
         }
     }
     return ret;

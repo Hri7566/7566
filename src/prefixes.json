@@ -10,5 +10,9 @@
     {
         "prefix": "7!",
         "attached": true
+    },
+    {
+        "prefix": "7",
+        "attached": true
     }
 ]
