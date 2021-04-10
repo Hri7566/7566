@@ -1,11 +1,21 @@
 {
     "wss://mpp.hri7566.info:8443": {
         "HMPP Lobby": {
-            "_id": "lobby",
-            "settings": {
-
-            },
-            "proxy": ""
+            "_id": "lobby"
+        },
+        "test/awkward": {
+            "_id": "test/awkward"
+        },
+        "lobby": {
+            "_id": "lobby"
+        },
+        "lobby2": {
+            "_id": "lobby2"
+        }
+    },
+    "wss://mppclone.com:8443": {
+        "RP Room": {
+            "_id": "✧𝓡𝓟 𝓡𝓸𝓸𝓶✧"
         },
         "test/awkward": {
             "_id": "test/awkward"
