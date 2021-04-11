@@ -19,6 +19,7 @@ const User = require('../lib/User');
 const Rank = require('../lib/Rank')
 
 const ItemRegister = require('../lib/ItemRegister');
+const Jobs = require('../lib/Jobs');
 
 module.exports = class Bot {
     static clients = new Register();
@@ -74,9 +75,7 @@ module.exports = class Bot {
             Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
         }
 
-        this.loadCommands();
-        this.loadUsers();
-        this.loadItems();
+        this.load();
 
         process.on('SIGINT', signal => {
             this.logger.log(`SIGINT received.`);
@@ -87,6 +86,13 @@ module.exports = class Bot {
             });
         });
 
+    }
+
+    static load() {
+        this.loadCommands();
+        this.loadUsers();
+        this.loadItems();
+        Jobs.loadJobs();
     }
 
     static loadCommands() {
@@ -147,7 +153,7 @@ module.exports = class Bot {
         try {
             let currencySymbol = "H$";
             let currencyStyle = "`${symbol}${amt}`"
-            let amt = b;
+            let amt = b.toString().substring(0, b.toString().indexOf(".") + 3);
             let symbol = currencySymbol;
             let parsed = eval(currencyStyle);
             return parsed;
