@@ -1,4 +1,4 @@
-image: node:latest
+image: node
 
 before_script:
     - apt-get update -qy
@@ -10,9 +10,8 @@ stages:
     - production
 
 staging:
-    type: deploy
     stage: staging
-    image: ruby:latest
+    image: ruby
     script:
         - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
     only:
