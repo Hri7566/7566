@@ -57,10 +57,10 @@ module.exports = class MPPClient extends Client {
                 // console.error(err);
 
                 m.stop();
-                this.logger.log(`Rejoining in 5s...`);
+                this.logger.log(`Rejoining in 1m...`);
                 setTimeout(() => {
                     m.start();
-                }, 5000);
+                }, 60 * 1000);
             });
         }, `MPP] [${name}`, 'mpp');
 

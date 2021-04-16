@@ -1,0 +1,10 @@
+image: node
+
+stages:
+    - test-install
+
+test-install:
+    stage: test-install
+    image: node
+    script:
+        - npm ci
