@@ -55,7 +55,8 @@ module.exports = class Client extends EventEmitter {
 
         this.on('chat', msg => {
             this.logger.log(`${msg.p._id.substr(0, 6)} | ${msg.p.name}: ${msg.a}`);
-
+            
+            msg.user = this._bot.getUser(msg);
             msg.rank = this._bot.getRank(msg);
 
             Object.keys(Registry.getRegister('command').data).forEach(nsid => {

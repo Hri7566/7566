@@ -38,10 +38,15 @@ const Bot7566 = require('./src');
 
 Bot7566.start({
     mpp: {
-        allowUserset: false
+        allowUserset: false,
+        enabled: false
     },
     discord: {
         token: process.env.DISCORD_TOKEN,
-        enabled: false
+        enabled: true
+    },
+    wss: {
+        port: 7566,
+        enabled: true
     }
 });

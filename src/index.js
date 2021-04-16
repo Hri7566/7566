@@ -30,13 +30,14 @@ module.exports = class Bot {
 
     static config = {
         mpp: {
-            allowUserset: true
-        },
-        discord: {
+            allowUserset: true,
             enabled: false
         },
+        discord: {
+            enabled: true
+        },
         wss: {
-            port: 12345
+            port: 7566
         }
     }
 
@@ -58,20 +59,22 @@ module.exports = class Bot {
 
         Registry.setRegister(new ClientRegister());
 
-        Object.keys(mpplist).forEach(uri => {
-            let rooms = mpplist[uri];
-            Object.keys(rooms).forEach(name => {
-                let room = rooms[name];
-                try {
-                    let cl = new MPPClient(this, name, uri, room._id, room.proxy);
-                    Registry.getRegister('client').add(name, cl);
-                } catch (err) {
-                    this.logger.error('Error adding client: ' + err.message);
-                }
+        if (this.config.mpp.enabled == true) {
+            Object.keys(mpplist).forEach(uri => {
+                let rooms = mpplist[uri];
+                Object.keys(rooms).forEach(name => {
+                    let room = rooms[name];
+                    try {
+                        let cl = new MPPClient(this, name, uri, room._id, room.proxy);
+                        Registry.getRegister('client').add(name, cl);
+                    } catch (err) {
+                        this.logger.error('Error adding client: ' + err.message);
+                    }
+                });
             });
-        });
+        }
 
-        if (this.config.discord.enabed) {
+        if (this.config.discord.enabled == true) {
             Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
         }
 
