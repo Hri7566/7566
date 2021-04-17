@@ -1,3 +1,82 @@
 {
-    
+    "314868372686766080": {
+        "name": "Hri7566",
+        "_id": "314868372686766080",
+        "color": "#000000",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
+    },
+    "822226085591777330": {
+        "name": "7566 (Development)",
+        "_id": "822226085591777330",
+        "color": "#000000",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
+    },
+    "215638199161192460": {
+        "name": "Matcha 🍵",
+        "_id": "215638199161192460",
+        "color": "#f1c40f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
+    },
+    "246799235775725569": {
+        "name": "Bop It Freak",
+        "_id": "246799235775725569",
+        "color": "#f1c40f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
+    },
+    "444931594759962624": {
+        "name": "charsy",
+        "_id": "444931594759962624",
+        "color": "#f1c40f",
+        "rank": {
+            "name": "None",
+            "_id": 0
+        },
+        "inventory": {},
+        "balance": 0,
+        "lastClaimed": 0,
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
+    }
 }
