@@ -124,7 +124,7 @@ module.exports = class Bot {
             let newUser = new User("Anonymous", "-1", "#000000", Rank.getRankFromName('none'));
 
             Object.keys(newUser).forEach(key => {
-                if (typeof(user[key]) == 'undefined') {
+                if (typeof(user[key]) == 'undefined' || user[key] == null) {
                     user[key] = newUser[key];
                 }
             });
