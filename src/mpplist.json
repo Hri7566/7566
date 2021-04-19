@@ -20,8 +20,8 @@
         "lobby": {
             "_id": "lobby"
         },
-        "lobby2": {
-            "_id": "lobby2"
+        "TWBARCI": {
+            "_id": "This would be a room. Click it."
         }
     }
 }
