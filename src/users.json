@@ -81574,9 +81574,10 @@
         "lastClaimed": 0,
         "color": "#000000"
     },
-    "674526b5e9c85bb63629e045": {
-        "name": "Anonymous",
-        "_id": "674526b5e9c85bb63629e045",
+    "314868372686766080": {
+        "name": "Hri7566",
+        "_id": "314868372686766080",
+        "color": "#000000",
         "rank": {
             "name": "None",
             "_id": 0
@@ -81584,11 +81585,15 @@
         "inventory": {},
         "balance": 0,
         "lastClaimed": 0,
-        "color": "#000000"
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
     },
-    "ac038a744a5022a476c415ed": {
-        "name": "haseeb",
-        "_id": "ac038a744a5022a476c415ed",
+    "822226085591777330": {
+        "name": "7566 (Development)",
+        "_id": "822226085591777330",
+        "color": "#000000",
         "rank": {
             "name": "None",
             "_id": 0
@@ -81596,11 +81601,15 @@
         "inventory": {},
         "balance": 0,
         "lastClaimed": 0,
-        "color": "#000000"
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
     },
-    "30be3c24e57f372940b818eb": {
-        "name": "Anonymous",
-        "_id": "30be3c24e57f372940b818eb",
+    "215638199161192460": {
+        "name": "Matcha 🍵",
+        "_id": "215638199161192460",
+        "color": "#f1c40f",
         "rank": {
             "name": "None",
             "_id": 0
@@ -81608,11 +81617,15 @@
         "inventory": {},
         "balance": 0,
         "lastClaimed": 0,
-        "color": "#000000"
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
     },
-    "9a28726fb4d64361072f36f0": {
-        "name": "Anonymous",
-        "_id": "9a28726fb4d64361072f36f0",
+    "246799235775725569": {
+        "name": "Bop It Freak",
+        "_id": "246799235775725569",
+        "color": "#f1c40f",
         "rank": {
             "name": "None",
             "_id": 0
@@ -81620,19 +81633,22 @@
         "inventory": {},
         "balance": 0,
         "lastClaimed": 0,
-        "color": "#000000"
+        "job": "none",
+        "lastWorked": 0,
+        "experience": 0,
+        "working": false
     },
-    "2781283e57042c96e4adb3e1": {
-        "name": "Anonymous",
-        "_id": "2781283e57042c96e4adb3e1",
+    "444931594759962624": {
+        "name": "charsy",
+        "_id": "444931594759962624",
+        "color": "#f1c40f",
         "rank": {
             "name": "None",
             "_id": 0
         },
         "inventory": {},
         "balance": 0,
-        "lastClaimed": 0,
-        "color": "#000000"
+        "lastClaimed": 0
     },
     "6faa0383fac42611cf420ffd": {
         "name": "Anonymous",
@@ -123419,3 +123435,4 @@
         "lastClaimed": 0
     }
 }
+

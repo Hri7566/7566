@@ -19,6 +19,7 @@ const User = require('../lib/User');
 const Rank = require('../lib/Rank')
 
 const ItemRegister = require('../lib/ItemRegister');
+const Jobs = require('../lib/Jobs');
 
 module.exports = class Bot {
     static clients = new Register();
@@ -29,13 +30,14 @@ module.exports = class Bot {
 
     static config = {
         mpp: {
-            allowUserset: true
-        },
-        discord: {
+            allowUserset: true,
             enabled: false
         },
+        discord: {
+            enabled: true
+        },
         wss: {
-            port: 12345
+            port: 7566
         }
     }
 
@@ -57,26 +59,26 @@ module.exports = class Bot {
 
         Registry.setRegister(new ClientRegister());
 
-        Object.keys(mpplist).forEach(uri => {
-            let rooms = mpplist[uri];
-            Object.keys(rooms).forEach(name => {
-                let room = rooms[name];
-                try {
-                    let cl = new MPPClient(this, name, uri, room._id, room.proxy);
-                    Registry.getRegister('client').add(name, cl);
-                } catch (err) {
-                    this.logger.error('Error adding client: ' + err.message);
-                }
+        if (this.config.mpp.enabled == true) {
+            Object.keys(mpplist).forEach(uri => {
+                let rooms = mpplist[uri];
+                Object.keys(rooms).forEach(name => {
+                    let room = rooms[name];
+                    try {
+                        let cl = new MPPClient(this, name, uri, room._id, room.proxy);
+                        Registry.getRegister('client').add(name, cl);
+                    } catch (err) {
+                        this.logger.error('Error adding client: ' + err.message);
+                    }
+                });
             });
-        });
+        }
 
-        if (this.config.discord.enabed) {
+        if (this.config.discord.enabled == true) {
             Registry.getRegister('client').add('discord', new DiscordClient(this, this.config.discord.token));
         }
 
-        this.loadCommands();
-        this.loadUsers();
-        this.loadItems();
+        this.load();
 
         process.on('SIGINT', signal => {
             this.logger.log(`SIGINT received.`);
@@ -87,6 +89,13 @@ module.exports = class Bot {
             });
         });
 
+    }
+
+    static load() {
+        this.loadCommands();
+        this.loadUsers();
+        this.loadItems();
+        Jobs.loadJobs();
     }
 
     static loadCommands() {
@@ -115,7 +124,7 @@ module.exports = class Bot {
             let newUser = new User("Anonymous", "-1", "#000000", Rank.getRankFromName('none'));
 
             Object.keys(newUser).forEach(key => {
-                if (typeof(user[key]) == 'undefined') {
+                if (typeof(user[key]) == 'undefined' || user[key] == null) {
                     user[key] = newUser[key];
                 }
             });
@@ -147,7 +156,7 @@ module.exports = class Bot {
         try {
             let currencySymbol = "H$";
             let currencyStyle = "`${symbol}${amt}`"
-            let amt = b;
+            let amt = b.toString().substring(0, b.toString().indexOf(".") + 3);
             let symbol = currencySymbol;
             let parsed = eval(currencyStyle);
             return parsed;

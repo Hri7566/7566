@@ -22,6 +22,13 @@ module.exports = new Command('balance', (msg, bot, context) => {
     let invstr = "";
     let out = `${user.name}, you have ${balanceFormat(user.balance)}.`;
     let hasInv = false;
+
+    let hasExp = user.experience !== 0;
+
+    if (hasExp) {
+        out += ` You have ${user.experience} experience.`
+    }
+    
     Object.keys(user.inventory).forEach(key => {
         if (typeof(user.inventory[key]) !== 'undefined') {
             hasInv = true;
@@ -39,11 +46,11 @@ module.exports = new Command('balance', (msg, bot, context) => {
         }
     });
 
-    if (!hasInv) {
-        return out;
-    } else {
+    if (hasInv) {
         invstr = invstr.substring(0, invstr.length - 2);
         invstr = invstr.trim();
-        return out + ` Inventory: ${invstr}`;
+        out += ` Inventory: ${invstr}`;
     }
-}, `PREFIXbalance`, 0, 0, false, ['bal','money','b','inv','i','inventory']);
+
+    return out;
+}, `PREFIXbalance`, 0, 0, false, ['bal','money','b','inv','i','inventory','experience','exp']);

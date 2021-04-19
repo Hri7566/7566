@@ -5,9 +5,8 @@ const User = require('../lib/User');
 module.exports = class DiscordClient extends Client {
     constructor (bot, token) {
         var dcl = new Discord.Client();
+        dcl.login(token);
         super(bot, dcl, (dcl, c) => {
-            dcl.login(token);
-
             dcl.on('ready', () => {
                 this.logger.log("Started");
             });
@@ -50,7 +49,7 @@ module.exports = class DiscordClient extends Client {
             channel: {
                 send: () => {}
             }
-        };
+        }
     }
 
     sendChat(str) {
