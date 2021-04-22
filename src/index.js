@@ -154,12 +154,10 @@ module.exports = class Bot {
 
     static balanceFormat(b) {
         try {
-            let currencySymbol = "H$";
-            let currencyStyle = "`${symbol}${amt}`"
-            let amt = b.toString().substring(0, b.toString().indexOf(".") + 3);
-            let symbol = currencySymbol;
-            let parsed = eval(currencyStyle);
-            return parsed;
+            let symbol = "H$";
+            let amt = Math.floor(b * 100)/100;
+            let currencyStyle = `${symbol}${amt}`;
+            return currencyStyle;
         } catch (err) {
             if (err) {
                 console.error(err);
