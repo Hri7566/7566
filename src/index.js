@@ -16,7 +16,7 @@ const CommandRegister = require('../lib/CommandRegister');
 
 const UserRegister = require('../lib/UserRegister');
 const User = require('../lib/User');
-const Rank = require('../lib/Rank')
+const Rank = require('../lib/Rank');
 
 const ItemRegister = require('../lib/ItemRegister');
 const Jobs = require('../lib/Jobs');
