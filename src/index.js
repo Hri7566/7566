@@ -31,7 +31,7 @@ module.exports = class Bot {
     static config = {
         mpp: {
             allowUserset: true,
-            enabled: false
+            enabled: true
         },
         discord: {
             enabled: true
