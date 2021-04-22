@@ -3,22 +3,6 @@ const Registry = require('../../lib/Registry');
 
 let claimAmount = 100;
 let claimLength = 24 * 60 * 60 * 1000; // 24 hours
-let currencySymbol = "H$";
-let currencyStyle = "`${symbol}${amt}`"
-
-function balanceFormat(b) {
-    try {
-        let amt = b;
-        let symbol = currencySymbol;
-        let parsed = eval(currencyStyle);
-        return parsed;
-    } catch (err) {
-        if (err) {
-            console.error(err);
-            return "MISSINGNO.";
-        }
-    }
-}
 
 module.exports = new Command('claim', (msg, bot, context) => {
     let user = bot._bot.getUser(msg);
@@ -32,8 +16,12 @@ module.exports = new Command('claim', (msg, bot, context) => {
         Registry.getRegister('user').data[user._id].lastClaimed = Date.now();
         Registry.getRegister('user').data[user._id].balance += claimAmount;
         bot._bot.saveUserData();
-        return `${msg.p.name} claimed ${balanceFormat(claimAmount)}. They now have ${balanceFormat(Registry.getRegister('user').data[user._id].balance)}.`;
+        if (context !== 'discord') {
+            return `${msg.p.name} claimed ${bot._bot.balanceFormat(claimAmount)}. They now have ${bot._bot.balanceFormat(Registry.getRegister('user').data[user._id].balance)}.`;
+        } else {
+            return `<@${msg.p._id}> claimed ${bot._bot.balanceFormat(claimAmount)}. They now have ${bot._bot.balanceFormat(Registry.getRegister('user').data[user._id].balance)}.`;
+        }
     }
 
-    return `❌ You can't claim until about ${Math.round(timeleft/1000/60/60)} hour(s) from now.`;
+    return `❌ You can't claim until about ${Math.round((timeleft/1000/60/60) * 100)/100} hour(s) from now.`;
 }, `PREFIXclaim`, 0, 0, false, ['daily']);

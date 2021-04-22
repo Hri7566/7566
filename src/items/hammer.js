@@ -5,9 +5,7 @@ module.exports = new Item("Hammer", true, (msg, bot, context) => {
     try {
         if (!msg.args[2]) {
             let hammers = [
-                `${msg.p.name} smashes their hammer upon their forehead, knocking themselves out.`,
-                `${msg.p.name} pulled the nails out of their eyes with their hammer.`,
-                `${msg.p.name} used their hammer so much that their house is now a mansion.`
+                `${msg.p.name} smashes their hammer upon their forehead, knocking themselves out.`
             ]
             ret = hammers[Math.floor(Math.random() * hammers.length)];
         } else {

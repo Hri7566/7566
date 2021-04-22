@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const Command = require('../../lib/Command');
 const Registry = require('../../lib/Registry');
 
@@ -43,6 +44,10 @@ module.exports = new Command('sell', (msg, bot, context) => {
         } else {
             user.inventory[getItem.name].count -= sellNum;
         }
-        return `✔️ ${msg.p.name} sold ${sellNum} "${getItem.name}" for ${bot._bot.balanceFormat(getItem.price * sellNum)} (${bot._bot.balanceFormat(getItem.price)} a piece). They now have ${bot._bot.balanceFormat(user.balance)}.`;
+        if (context !== 'discord') {
+            return `✔️ ${msg.p.name} sold ${sellNum} "${getItem.name}" for ${bot._bot.balanceFormat(getItem.price * sellNum)} (${bot._bot.balanceFormat(getItem.price)} a piece). They now have ${bot._bot.balanceFormat(user.balance)}.`;
+        } else {
+            return new MessageEmbed().setTitle("Sell").addField(`:white_check_mark: ${msg.p.name} sold ${sellNum} "${getItem.name}" for ${bot._bot.balanceFormat(getItem.price * sellNum)} (${bot._bot.balanceFormat(getItem.price)} a piece).`, `They now have ${bot._bot.balanceFormat(user.balance)}.`).setColor("#FFFFFF");
+        }
     }
 }, `PREFIXsell <item>`, 1, 0, false, []);

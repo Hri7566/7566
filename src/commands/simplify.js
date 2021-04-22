@@ -7,7 +7,7 @@ module.exports = new Command("simplify", (msg, bot) => {
         ret = `${math.simplify(msg.argcat)}`;
     } catch (err) {
         if (err) {
-            ret = "Impossible.";
+            ret = "Invalid input.";
         }
     }
     return ret;

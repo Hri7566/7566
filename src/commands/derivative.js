@@ -12,7 +12,7 @@ module.exports = new Command("derivative", (msg, bot, context) => {
         }
     } catch (err) {
         if (err) {
-            ret = "Impossible.";
+            ret = "Invalid input.";
         }
     }
     return ret;

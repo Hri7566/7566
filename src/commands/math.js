@@ -7,7 +7,7 @@ module.exports = new Command("math", (msg, bot, context) => {
         ret = `🔢 ${math.evaluate(msg.argcat)}`;
     } catch (err) {
         if (err) {
-            ret = "🔢 Impossible.";
+            ret = "🔢 Invalid input.";
         }
     }
     return ret;
