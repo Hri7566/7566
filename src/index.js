@@ -50,7 +50,7 @@ module.exports = class Bot {
                 console.error(err);
             }
         });
-    }, 60000);
+    }, 60 * 60 * 1000);
 
     static start(config) {
         typeof(config) == 'object' ? this.config = config : this.config = this.config;
