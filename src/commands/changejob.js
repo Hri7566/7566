@@ -51,4 +51,4 @@ module.exports = new Command('changejob', (msg, bot, context) => {
         ret = ret.trim();
         return ret;
     }
-}, `PREFIXchangejob <job>`, 0, 0, false, ['cj', 'setjob', 'sj']);
+}, `PREFIXchangejob <job>`, 0, 0, false, ['cj', 'setjob', 'sjob', 'setj', 'sj', 'joblist', 'jl', 'jobl']);
