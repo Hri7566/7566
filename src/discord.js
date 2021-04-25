@@ -6,9 +6,17 @@ module.exports = class DiscordClient extends Client {
     constructor (bot, token) {
         var dcl = new Discord.Client();
         dcl.login(token);
+        
         super(bot, dcl, (dcl, c) => {
             dcl.on('ready', () => {
                 this.logger.log("Started");
+                dcl.user.setPresence({
+                    status: 'online',
+                    activity: {
+                        name: "7help",
+                        type: "PLAYING"
+                    }
+                });
             });
             
             dcl.on('message', msg => {
