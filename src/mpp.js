@@ -65,7 +65,7 @@ module.exports = class MPPClient extends Client {
         }, `MPP] [${name}`, 'mpp');
 
         this.userSettings = {
-            name: '7566 | h!help',
+            name: '7566 | 7help',
             color: "#22b76d"
         }
     }
