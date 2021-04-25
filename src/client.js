@@ -78,8 +78,9 @@ module.exports = class Client extends EventEmitter {
                     try {
                         out = cmd.func(msg, this, msg.context);
                     } catch (err) {
-                        out = 'Error; check log for details';
+                        out = 'Error; Try again or bug Hri7566';
                         this.logger.error(err);
+                        this.logger.debug(err);
                     }
                     if (out !== null && typeof(out) !== 'undefined' && out !== '') {
                         this.sendChat(out);
