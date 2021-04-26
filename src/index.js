@@ -156,7 +156,7 @@ module.exports = class Bot {
         try {
             let symbol = "H$";
             let amt = Math.floor(b * 100)/100;
-            let currencyStyle = `${symbol}${amt}`;
+            let currencyStyle = `${symbol}${amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
             return currencyStyle;
         } catch (err) {
             if (err) {

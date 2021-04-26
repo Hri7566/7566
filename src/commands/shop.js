@@ -5,20 +5,6 @@ const Registry = require('../../lib/Registry');
 let currencySymbol = "H$";
 let currencyStyle = "`${symbol}${amt}`"
 
-function balanceFormat(b) {
-    try {
-        let amt = b;
-        let symbol = currencySymbol;
-        let parsed = eval(currencyStyle);
-        return parsed;
-    } catch (err) {
-        if (err) {
-            console.error(err);
-            return "MISSINGNO.";
-        }
-    }
-}
-
 module.exports = new Command('shop', (msg, bot, context) => {
     if (context !== 'discord') {
         let ret = "🛒 Shop: ";
@@ -26,7 +12,7 @@ module.exports = new Command('shop', (msg, bot, context) => {
         Object.keys(items).forEach(id => {
             let item = items[id];
             if (item.inShop)
-                ret += ` ${item.name}: ${balanceFormat(item.price)} | `;
+                ret += ` ${item.name}: ${bot._bot.balanceFormat(item.price)} | `;
         });
         ret = ret.substring(0, ret.length - 2);
         ret = ret.trim();

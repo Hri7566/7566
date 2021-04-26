@@ -3,24 +3,10 @@ const Command = require('../../lib/Command');
 let currencySymbol = "H$";
 let currencyStyle = "`${symbol}${amt}`"
 
-function balanceFormat(b) {
-    try {
-        let amt = b;
-        let symbol = currencySymbol;
-        let parsed = eval(currencyStyle);
-        return parsed;
-    } catch (err) {
-        if (err) {
-            console.error(err);
-            return "MISSINGNO.";
-        }
-    }
-}
-
 module.exports = new Command('balance', (msg, bot, context) => {
     let user = bot._bot.getUser(msg);
     let invstr = "";
-    let out = `${user.name}, you have ${balanceFormat(user.balance)}.`;
+    let out = `${user.name}, you have ${bot._bot.balanceFormat(user.balance)}.`;
     let hasInv = false;
 
     let hasExp = user.experience !== 0;
