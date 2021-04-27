@@ -16,11 +16,11 @@ module.exports = class MPPClient extends Client {
                     m.sendArray([{m:'userset', set: this.userSettings}]);
 
                 let cursor = {
-                    x: 50,
-                    y: 50,
+                    x: Math.random()*100,
+                    y: Math.random()*100,
                     vel: {
-                        x: 2/5,
-                        y: 2/7
+                        x: 1/60,
+                        y: 1/60
                     }
                 };
 
