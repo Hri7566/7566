@@ -112,7 +112,7 @@ module.exports = class MPPClient extends Client {
         arr.push(str);
 
         for(var i = 0; i < arr.length; i++) {
-            this.chat_send_buffer.push({m: "a", message: arr[i]});
+            this.chat_send_buffer.push({m: "a", message: arr[i].toString()});
         }
 	}
 }
