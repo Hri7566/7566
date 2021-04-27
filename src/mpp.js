@@ -93,23 +93,23 @@ module.exports = class MPPClient extends Client {
         this.chat_send_buffer = [];
 
         this.chatInterval = setInterval(() => {
-            if (this.client.isConnected()) {
-                var msg = this.chat_send_buffer.shift();
-                if (msg) {
-                    this.client.sendArray([{m:'a', message:`\u034f${msg}`}]);
-                }
+            let msg = this.chat_send_buffer.shift();
+            if (typeof(msg) !== 'undefined') {
+                this.client.sendArray([{m:'a', message:`\u034f${msg}`}]);
             }
         }, 2000);
     }
 
     sendChat(message) {
         var arr = [];
-        while(message.length > 511) {
-            arr.push(message.substr(0, 511));
-            message = "…"+message.substr(511);
+        let str = message;
+
+        while (str.length > 511) {
+            arr.push(str.substr(0, 511));
+            str = "…" + str.substr(511);
         }
         
-        arr.push(message);
+        arr.push(str);
 
         for(var i = 0; i < arr.length; i++) {
             this.chat_send_buffer.push({m: "a", message: arr[i]});
