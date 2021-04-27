@@ -91,6 +91,15 @@ module.exports = class MPPClient extends Client {
         }
 
         this.chat_send_buffer = [];
+
+        this.chatInterval = setInterval(() => {
+            if (this.client.isConnected()) {
+                var msg = this.chat_send_buffer.shift();
+                if (msg) {
+                    this.client.sendArray([{m:'a', message:`\u034f${msg}`}]);
+                }
+            }
+        }, 2000);
     }
 
     sendChat(message) {
