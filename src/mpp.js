@@ -89,6 +89,8 @@ module.exports = class MPPClient extends Client {
             name: '7566 | 7help',
             color: "#22b76d"
         }
+
+        this.chat_send_buffer = [];
     }
 
     sendChat(message) {
@@ -101,7 +103,7 @@ module.exports = class MPPClient extends Client {
         arr.push(message);
 
         for(var i = 0; i < arr.length; i++) {
-            chat_send_buffer.push({m: "a", message: arr[i]});
+            this.chat_send_buffer.push({m: "a", message: arr[i]});
         }
 	}
 }
