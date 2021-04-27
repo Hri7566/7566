@@ -91,7 +91,17 @@ module.exports = class MPPClient extends Client {
         }
     }
 
-    sendChat(str) {
-        this.client.sendArray([{m:'a', message:`\u034f${str}`}]);
-    }
+    sendChat(message) {
+        var arr = [];
+        while(message.length > 511) {
+            arr.push(message.substr(0, 511));
+            message = "…"+message.substr(511);
+        }
+        
+        arr.push(message);
+
+        for(var i = 0; i < arr.length; i++) {
+            chat_send_buffer.push({m: "a", message: arr[i]});
+        }
+	}
 }
