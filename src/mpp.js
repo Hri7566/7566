@@ -95,7 +95,7 @@ module.exports = class MPPClient extends Client {
         this.chatInterval = setInterval(() => {
             let msg = this.chat_send_buffer.shift();
             if (typeof(msg) !== 'undefined') {
-                this.client.sendArray([{m:'a', message:`\u034f${msg}`}]);
+                this.client.sendArray([msg]);
             }
         }, 2000);
     }
@@ -112,7 +112,7 @@ module.exports = class MPPClient extends Client {
         arr.push(str);
 
         for(var i = 0; i < arr.length; i++) {
-            this.chat_send_buffer.push({m: "a", message: arr[i].toString()});
+            this.chat_send_buffer.push({m: "a", message: `\u034f`+arr[i].toString()});
         }
 	}
 }
