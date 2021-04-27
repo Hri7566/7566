@@ -14,6 +14,27 @@ module.exports = class MPPClient extends Client {
 
                 if (bot.config.mpp.allowUserset)
                     m.sendArray([{m:'userset', set: this.userSettings}]);
+
+                let cursor = {
+                    x: 50,
+                    y: 50,
+                    vel: {
+                        x: 2/5,
+                        y: 2/7
+                    }
+                };
+
+                this.cursorInt = setInterval(() => {
+                    if (cursor.x >= 100 || cursor.x <= 0) {
+                        cursor.vel.x = -cursor.vel.x;
+                    }
+                    if (cursor.y >= 100 || cursor.y <= 0) {
+                        cursor.vel.y = -cursor.vel.y;
+                    }
+                    cursor.x += cursor.vel.x;
+                    cursor.y += cursor.vel.y;
+                    m.sendArray([{m:'m', x: cursor.x, y: cursor.y}]);
+                }, 60/1000);
             });
 
             m.on('a', msg => {
