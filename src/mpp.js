@@ -34,7 +34,7 @@ module.exports = class MPPClient extends Client {
                     cursor.x += cursor.vel.x;
                     cursor.y += cursor.vel.y;
                     m.sendArray([{m:'m', x: cursor.x, y: cursor.y}]);
-                }, 60/1000);
+                }, this.client.uri == "wss://mppclone.com:8443" ? 30/1000 : 60/1000);
             });
 
             m.on('a', msg => {
