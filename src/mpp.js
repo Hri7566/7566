@@ -87,7 +87,7 @@ module.exports = class MPPClient extends Client {
 
         this.userSettings = {
             name: '7566 | 7help',
-            color: "#22b76d"
+            color: "#9900ff"
         }
 
         this.chat_send_buffer = [];
