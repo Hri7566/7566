@@ -82,6 +82,37 @@ class Cursor {
             this.old.time = Date.now();
         }
     }
+
+    defaultFigure() {
+        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
+        this.velocity = new Vector2(1, 2);
+
+        let angle = 0;
+
+        let width = 10;
+        let height = 10;
+
+        this.func = () => {
+            this.time = Date.now();
+            this.deltaTime = (this.time - this.old.time)/1000;
+
+            angle += 0.1;
+
+            this.position.x = (((Math.floor(Math.sin(angle) * 100)/100) * width)) + 50;
+            // console.log(angle + ": " + this.position.x);
+            
+            this.velocity.y = 50 - height + (Math.sin(angle*2)/((10 + 5)/width) + 1) * height;
+
+            this.position.y = this.velocity.y
+
+            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                this.position.y = SCREEN_BOUNDARIES.top;
+            }
+
+            this.old.position.x = this.position.x;
+            this.old.time = Date.now();
+        }
+    }
 }
 
 module.exports = Cursor;
