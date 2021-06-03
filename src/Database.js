@@ -5,7 +5,9 @@ mongoose.connect(process.env.MONGO_URL);
 class Database {
     static db = mongoose.connection;
 
-    async getUser() {
+    
+
+    static async getUser() {
         
     }
 }
