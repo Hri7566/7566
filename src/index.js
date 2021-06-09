@@ -1,5 +1,5 @@
 const StaticEventEmitter = require('./StaticEventEmitter.js');
-const MPPClient7566 = require("./MPPClient7566");
+const MPPClient7566 = require("./MPP/MPPClient7566");
 
 class Bot extends StaticEventEmitter {
     static clients = new Map();

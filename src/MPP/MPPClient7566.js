@@ -1,7 +1,7 @@
-const Client7566 = require('./Client7566');
+const Client7566 = require('../Client7566');
 const MPPClient = require('./MPPClient');
-const Cursor = require('./Geometry/Cursor');
-const Vector2 = require('./Geometry/Vector2');
+const Cursor = require('../Geometry/Cursor');
+const Vector2 = require('../Geometry/Vector2');
 
 class MPPClient7566 extends Client7566 {
     constructor (uri, room, token, proxy) {
