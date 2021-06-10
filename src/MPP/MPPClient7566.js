@@ -1,7 +1,8 @@
 const Client7566 = require('../Client7566');
 const MPPClient = require('./MPPClient');
-const Cursor = require('../Geometry/Cursor');
+const Cursor = require('./Cursor');
 const Vector2 = require('../Geometry/Vector2');
+const { ClientChatMessage, ServerChatMessage } = require('../Message');
 
 class MPPClient7566 extends Client7566 {
     constructor (uri, room, token, proxy) {
@@ -16,26 +17,71 @@ class MPPClient7566 extends Client7566 {
         this.client.setChannel(room);
         this.lastCursorPos = new Vector2(-150, -150);
 
-        this.bind();
-        
+        this.bindClientEventListeners();
     }
     
-    bind() {
+    bindEventListeners() {
+        super.bindEventListeners();
+
+        this.on("cursor", (x, y) => {
+            this.client.sendArray([{
+                m: "m",
+                x: Math.floor(x * 100) / 100,
+                y: Math.floor(y * 100) / 100
+            }]);
+        });
+    }
+
+    bindClientEventListeners() {
         this.client.on('hi', msg => {
             this.startCursorInterval();
+        });
+
+        this.client.on('a', msg => {
+            if (!msg.hasOwnProperty('m')) return;
+            if (msg.m !== 'a') return;
+            let m = new ServerChatMessage(msg.a, msg.p);
+
+            this.emit('receive', m);
         });
     }
 
     startCursorInterval() {
-        // this.cursor.defaultDVD();
-        this.cursor.defaultLeaf();
+        this.cursor.defaultFigureB();
+
+        // let count = 0;
+        // setInterval(() => {
+        //     switch (count) {
+        //         case 0:
+        //             this.cursor.defaultLeaf();
+        //             break;
+        //         case 1:
+        //             this.cursor.defaultDVD();
+        //             break;
+        //         case 2:
+        //             this.cursor.defaultFigure();
+        //             break;
+        //     }
+
+        //     count++;
+        //     if (count > 2) count = 0;
+        // }, 30000);
+
+        // this.cursor.defaultFigure();
+
         this.cursorInterval = setInterval(() => {
             this.cursor.func();
+            // this is entirely borked ;-;
             // if (this.cursor.position.x !== this.lastCursorPos.x && this.cursor.position.y !== this.lastCursorPos.y) {
                 this.emit('cursor', this.cursor.position.x, this.cursor.position.y);
                 // this.lastCursorPos = this.cursor.position;
             // }
         }, 1000/25);
+    }
+
+    sendChat(txt) {
+        super.sendChat(txt);
+        this.client.sendArray([new ClientChatMessage(txt)]);
     }
 }
 

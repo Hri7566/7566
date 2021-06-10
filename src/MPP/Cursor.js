@@ -1,4 +1,4 @@
-const Vector2 = require("./Vector2");
+const Vector2 = require("../Geometry/Vector2");
 
 const SCREEN_BOUNDARIES = {
     top: 0,
@@ -111,6 +111,38 @@ class Cursor {
 
             this.old.position.x = this.position.x;
             this.old.time = Date.now();
+        }
+    }
+
+    defaultFigureB() {
+        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
+        this.velocity = new Vector2(1, 2);
+
+        let angle = 0;
+
+        let width = 10;
+        let height = 10;
+
+        let r = 0;
+
+        this.func = () => {
+            this.time = Date.now();
+            this.deltaTime = (this.time - this.old.time)/1000;
+
+            angle += 0.1;
+
+            this.position.x = ((Math.floor(Math.sin(2 * angle) * 100)/100) * width) + 50
+            // console.log(angle + ": " + this.position.x);
+
+            this.position.y = ((Math.floor(Math.sin(3 * angle) * 100)/100) * width) + 50
+
+            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                this.position.y = SCREEN_BOUNDARIES.top;
+            }
+
+            this.old.position.x = this.position.x;
+            this.old.time = Date.now();
+
         }
     }
 }

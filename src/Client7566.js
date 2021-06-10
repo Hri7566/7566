@@ -1,6 +1,7 @@
-const { EventEmitter } = require("events");
+const { ServerChatMessage } = require("./Message");
+const RegisterEventEmitter = require("./RegisterEventEmitter");
 
-class Client7566 extends EventEmitter {
+class Client7566 extends RegisterEventEmitter {
     constructor (context) {
         super();
         this.context = context;
@@ -13,18 +14,22 @@ class Client7566 extends EventEmitter {
         });
 
         this.on("receive", msg => {
-
+            Bot.emit("receive", msg);
         });
 
-        this.on("cursor", (x, y) => {
-            if (this.context == 'mpp') {
-                this.client.sendArray([{
-                    m: "m",
-                    x: Math.floor(x * 100) / 100,
-                    y: Math.floor(y * 100) / 100
-                }]);
-            }
-        });
+        // this.on("cursor", (x, y) => {
+        //     if (this.context == 'mpp') {
+        //         this.client.sendArray([{
+        //             m: "m",
+        //             x: Math.floor(x * 100) / 100,
+        //             y: Math.floor(y * 100) / 100
+        //         }]);
+        //     }
+        // });
+    }
+
+    sendChat(txt) {
+
     }
 }
 
