@@ -1,9 +1,8 @@
-const { Console } = require("node:console");
+const { Console } = require("console");
+const EventEmitter = require("events");
 
 class Logger extends Console {
-    constructor (...args) {
-        super(args);
-    }
+    
 }
 
 module.exports = Logger;

@@ -23,13 +23,15 @@ class MPPClient7566 extends Client7566 {
     bindEventListeners() {
         super.bindEventListeners();
 
-        this.on("cursor", (x, y) => {
+        this.on('cursor', (x, y) => {
             this.client.sendArray([{
                 m: "m",
                 x: Math.floor(x * 100) / 100,
                 y: Math.floor(y * 100) / 100
             }]);
         });
+
+        this.on('send', msg => {})
     }
 
     bindClientEventListeners() {
@@ -42,32 +44,33 @@ class MPPClient7566 extends Client7566 {
             if (msg.m !== 'a') return;
             let m = new ServerChatMessage(msg.a, msg.p);
 
-            this.emit('receive', m);
+            this.emit('receive', m, this);
         });
     }
 
     startCursorInterval() {
         this.cursor.defaultFigureB();
 
-        // let count = 0;
-        // setInterval(() => {
-        //     switch (count) {
-        //         case 0:
-        //             this.cursor.defaultLeaf();
-        //             break;
-        //         case 1:
-        //             this.cursor.defaultDVD();
-        //             break;
-        //         case 2:
-        //             this.cursor.defaultFigure();
-        //             break;
-        //     }
+        let count = 0;
+        setInterval(() => {
+            switch (count) {
+                case 0:
+                    this.cursor.defaultLeaf();
+                    break;
+                case 1:
+                    this.cursor.defaultDVD();
+                    break;
+                case 2:
+                    this.cursor.defaultFigure();
+                    break;
+                case 3:
+                    this.cursor.defaultFigureB();
+                    break;
+            }
 
-        //     count++;
-        //     if (count > 2) count = 0;
-        // }, 30000);
-
-        // this.cursor.defaultFigure();
+            count++;
+            if (count > 3) count = 0;
+        }, 30000);
 
         this.cursorInterval = setInterval(() => {
             this.cursor.func();

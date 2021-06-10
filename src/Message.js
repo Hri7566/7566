@@ -11,7 +11,7 @@ class UserMessage extends Message {
         this.p = p;
     }
 
-    get getParticipant() {
+    get participant() {
         return this.p;
     }
 }
@@ -44,10 +44,29 @@ class ChsetMessage extends Message {
     }
 }
 
+class BotIncomingChatMessage extends ServerChatMessage {
+    constructor (msg) {
+        super(msg.a, msg.p);
+        this.args = this.a.split(' ');
+
+        Bot.prefixes.forEach(prefix => {
+            if (this.a.startsWith(prefix.accessor)) {
+                this.usedPrefix = prefix;
+            }
+        });
+
+        if (!this.usedPrefix) return;
+
+        this.cmd = this.args[0].substring(this.usedPrefix.accessor.length);
+        this.argcat = this.a.substring(this.args[0].length).trim();
+    }
+}
+
 module.exports = {
     Message,
     ServerChatMessage,
     ClientChatMessage,
     UsersetMessage,
-    ChsetMessage
+    ChsetMessage,
+    BotIncomingChatMessage
 };

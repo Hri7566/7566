@@ -13,8 +13,8 @@ class Client7566 extends RegisterEventEmitter {
 
         });
 
-        this.on("receive", msg => {
-            Bot.emit("receive", msg);
+        this.on("receive", (msg, cl) => {
+            Bot.emit("receive", msg, cl);
         });
 
         // this.on("cursor", (x, y) => {
