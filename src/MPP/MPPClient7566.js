@@ -37,6 +37,7 @@ class MPPClient7566 extends Client7566 {
     bindClientEventListeners() {
         this.client.on('hi', msg => {
             this.startCursorInterval();
+            this.userset();
         });
 
         this.client.on('a', msg => {
@@ -46,6 +47,11 @@ class MPPClient7566 extends Client7566 {
 
             this.emit('receive', m, this);
         });
+    }
+
+    userset(set) {
+        if (!set) set = {name:"7566", color:"#8d3f50"};
+        this.client.sendArray([{m:"userset", set:set}])
     }
 
     startCursorInterval() {
