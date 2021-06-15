@@ -31,13 +31,16 @@ class MPPClient7566 extends Client7566 {
             }]);
         });
 
-        this.on('send', msg => {})
+        this.on('send', msg => {
+            this.sendChat(msg.message);
+        })
     }
 
     bindClientEventListeners() {
         this.client.on('hi', msg => {
             this.startCursorInterval();
             this.userset();
+            console.log('MPP Online');
         });
 
         this.client.on('a', msg => {
@@ -55,28 +58,28 @@ class MPPClient7566 extends Client7566 {
     }
 
     startCursorInterval() {
-        this.cursor.defaultFigureB();
+        this.cursor.defaultFigure();
 
-        let count = 0;
-        setInterval(() => {
-            switch (count) {
-                case 0:
-                    this.cursor.defaultLeaf();
-                    break;
-                case 1:
-                    this.cursor.defaultDVD();
-                    break;
-                case 2:
-                    this.cursor.defaultFigure();
-                    break;
-                case 3:
-                    this.cursor.defaultFigureB();
-                    break;
-            }
+        // let count = 0;
+        // setInterval(() => {
+        //     switch (count) {
+        //         case 0:
+        //             this.cursor.defaultLeaf();
+        //             break;
+        //         case 1:
+        //             this.cursor.defaultDVD();
+        //             break;
+        //         case 2:
+        //             this.cursor.defaultFigure();
+        //             break;
+        //         case 3:
+        //             this.cursor.defaultFigureB();
+        //             break;
+        //     }
 
-            count++;
-            if (count > 3) count = 0;
-        }, 30000);
+        //     count++;
+        //     if (count > 3) count = 0;
+        // }, 30000);
 
         this.cursorInterval = setInterval(() => {
             this.cursor.func();

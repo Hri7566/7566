@@ -1,18 +1,31 @@
+const { MessageEmbed } = require("discord.js");
 const Command = require("../Command");
 const DeferredRegister = require("../DeferredRegister");
 
 module.exports = new Command('help', ['help'], `%PREFIX%help [cmd]`, `List available commands.`, (msg, cl) => {
     let out;
     if (!msg.args[1]) {
-        out = `Commands: `;
-        for (let val of DeferredRegister.registry) {
-            if (!val[0].startsWith('command')) continue;
-            let cmd = val[1];
-            if (!cmd) continue;
-            if (cmd.hidden) continue;
-            out += ` ${msg.usedPrefix.accessor}${cmd.accessors[0]} | `;
+        if (cl.context == 'mpp') {
+            out = `Commands:`;
+            for (let val of DeferredRegister.registry) {
+                if (!val[0].startsWith('command')) continue;
+                let cmd = val[1];
+                if (!cmd) continue;
+                if (cmd.hidden) continue;
+                out += ` ${msg.usedPrefix.accessor}${cmd.accessors[0]} | `;
+            }
+            out = out.substring(0, out.length - 2).trim();
+        } else if (cl.context == 'discord') {
+            out = new MessageEmbed();
+            out.setTitle('Help');
+            for (let val of DeferredRegister.registry) {
+                if (!val[0].startsWith('command')) continue;
+                let cmd = val[1];
+                if (!cmd) continue;
+                if (cmd.hidden) continue;
+                out.addField(`${msg.usedPrefix.accessor}${cmd.accessors[0]}`, Command.getUsage(cmd.usage, msg.usedPrefix.accessor));
+            }
         }
-        out = out.substring(0, out.length - 2).trim();
     } else {
         out = ``;
         let cmd;

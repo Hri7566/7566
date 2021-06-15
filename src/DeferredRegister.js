@@ -28,7 +28,6 @@ class DeferredRegister extends EventEmitter {
     }
 
     forEach(cb, thisArg) {
-        console.log("inside test")
         return this.map.forEach(cb, thisArg);
     }
 
