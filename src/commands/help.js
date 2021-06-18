@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const Command = require("../Command");
 const DeferredRegister = require("../DeferredRegister");
 
-module.exports = new Command('help', ['help'], `%PREFIX%help [cmd]`, `List available commands.`, (msg, cl) => {
+module.exports = new Command('help', ['help','cmds'], `%PREFIX%help [cmd]`, `List available commands.`, (msg, cl) => {
     let out;
     if (!msg.args[1]) {
         if (cl.context == 'mpp') {

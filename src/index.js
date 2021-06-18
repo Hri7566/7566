@@ -57,6 +57,9 @@ class Bot extends StaticEventEmitter {
     static watchCommandFolder() {
         chokidar.watch(join(__dirname, './commands')).on('change', (path, stats) => {
             this.commands = new DeferredRegister('command');
+            for (let i in DeferredRegister.registry) {
+                console.log(i);
+            }
             this.loadCommands();
         });
     }
@@ -85,10 +88,9 @@ class Bot extends StaticEventEmitter {
         msg = new BotIncomingChatMessage(msg);
         if (!msg.hasOwnProperty('usedPrefix')) return;
 
-        for (let val of DeferredRegister.registry) {
-            if (!val[0].startsWith('command')) continue;
+        DeferredRegister.grab(val => {
             let cmd = val[1];
-            if (!cmd) continue;
+            if (!cmd) return;
 
             let canContinue = false;
             for (let a of cmd.accessors) {
@@ -97,7 +99,7 @@ class Bot extends StaticEventEmitter {
                 }
             }
             
-            if (!canContinue) continue;
+            if (!canContinue) return;
             
             try {
                 let out = cmd.func(msg, client);
@@ -108,7 +110,7 @@ class Bot extends StaticEventEmitter {
                 client.sendChat(`An error has occurred. ${errormsgs[Math.floor(Math.random() * errormsgs.length)]}`);
                 console.error(err);
             }
-        }
+        }, "command");
     }
 }
 
