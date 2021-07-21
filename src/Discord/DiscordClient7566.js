@@ -31,7 +31,7 @@ class MPPClient7566 extends Client7566 {
                 color: "#000000"
             }
             
-            let m = new ServerChatMessage(msg.content);
+            let m = new ServerChatMessage(msg.content, p);
 
             this.emit('receive', m, this);
         });

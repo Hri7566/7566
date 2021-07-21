@@ -60,6 +60,8 @@ class MPPClient7566 extends Client7566 {
     startCursorInterval() {
         this.cursor.defaultFigure();
 
+        if (this.cursorInterval) clearInterval(this.cursorInterval);
+
         // let count = 0;
         // setInterval(() => {
         //     switch (count) {

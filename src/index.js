@@ -20,7 +20,7 @@ class Bot extends StaticEventEmitter {
         this.bindEventListeners();
         this.loadCommands();
         this.watchCommandFolder();
-        this.startMPPClients(roomList);
+        // this.startMPPClients(roomList);
         this.startDiscordClient(process.env.DISCORD_TOKEN);
     }
 
