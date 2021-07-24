@@ -4,6 +4,6 @@ let prefixes = new Map();
 
 prefixes.set('7', new Prefix('7', '7'));
 prefixes.set('caret', new Prefix('caret', '^'));
-prefixes.set('slash', new Prefix('slash', '/'));
+// prefixes.set('slash', new Prefix('slash', '/'));
 
 module.exports = prefixes;

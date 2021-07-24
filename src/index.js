@@ -8,6 +8,7 @@ const fs = require('fs');
 const chokidar = require('chokidar');
 const { join } = require('path');
 const errormsgs = require('./errors');
+const Jobs = require('./Jobs');
 
 function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
@@ -19,8 +20,9 @@ class Bot extends StaticEventEmitter {
     static start(roomList) {
         this.bindEventListeners();
         this.loadCommands();
+        Jobs.registerJobs();
         this.watchCommandFolder();
-        // this.startMPPClients(roomList);
+        this.startMPPClients(roomList);
         this.startDiscordClient(process.env.DISCORD_TOKEN);
     }
 
@@ -41,12 +43,12 @@ class Bot extends StaticEventEmitter {
         const files = fs.readdirSync(join(__dirname, 'Commands'));
         files.forEach(file => {
             try {
-                console.log('loading command ' + file);
+                // console.log('loading command ' + file);
                 delete require.cache[join(__dirname, './Commands', file)];
                 let cmd = require(join(__dirname, './Commands', file));
                 this.commands.register(cmd.id, cmd);
                 console.log('added command ' + cmd.id);
-                console.log(cmd.func.toString());
+                // console.log(cmd.func.toString());
             } catch (err) {
                 console.error(`Error loading command ${file}`);
                 console.error(err);
