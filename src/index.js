@@ -48,12 +48,12 @@ class Bot extends StaticEventEmitter {
     
     static loadCommands() {
         console.log('Loading commands...');
-        const files = fs.readdirSync(join(__dirname, 'Commands'));
+        const files = fs.readdirSync(join(__dirname, 'commands'));
         files.forEach(file => {
             try {
                 // console.log('loading command ' + file);
-                delete require.cache[join(__dirname, './Commands', file)];
-                let cmd = require(join(__dirname, './Commands', file));
+                delete require.cache[join(__dirname, './commands', file)];
+                let cmd = require(join(__dirname, './commands', file));
                 this.commands.register(cmd.id, cmd);
                 // console.log('added command ' + cmd.id);
                 // console.log(cmd.func.toString());
