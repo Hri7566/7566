@@ -14,20 +14,25 @@ const Command = require('./Command.js');
 
 function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
+const MPP_ENABLED = process.env.MPP_ENABLED == "true";
+const DISCORD_ENABLED = process.env.DISCORD_ENABLED == "true";
+
 class Bot extends StaticEventEmitter {
     static clients = new DeferredRegister('client');
     static commands = new DeferredRegister('command');
     static prefixes = require('./prefixes');
+    static started = false;
 
     static start(roomList) {
+        if (this.started) return;
+        this.started = true;
         this.bindEventListeners();
         this.loadCommands();
         Jobs.registerJobs();
         this.watchCommandFolder();
-        this.startMPPClients(roomList);
-        this.startDiscordClient(process.env.DISCORD_TOKEN);
+        if (MPP_ENABLED) this.startMPPClients(roomList);
+        if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
     }
-
     
     static startMPPClients(list) {
         for (let i of Object.keys(list)) {
@@ -115,7 +120,7 @@ class Bot extends StaticEventEmitter {
             if (msg.args.length - 1 < cmd.args) return client.sendChat(`Not enough arguments. Usage: ${Command.getUsage(cmd.usage, msg.usedPrefix.accessor)}`);
             
             try {
-                let out = await cmd.func(msg, client);
+                let out = await cmd.func(msg, client, this);
                 if (out !== null && out !== undefined) {
                     client.emit('send', new ClientChatMessage(out));
                 }

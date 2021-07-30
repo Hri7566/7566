@@ -1,6 +1,6 @@
 const Command = require("../Command");
 
-module.exports = new Command('js', ['js'], `%PREFIX%js (eval string)`, `Evaluate JavaScript during runtime.`, async (msg, cl) => {
+module.exports = new Command('js', ['js'], `%PREFIX%js (eval string)`, `Evaluate JavaScript during runtime.`, async (msg, cl, bot) => {
     let out = `✔️ Console: `;
     try {
         // if (msg.argcat.toLowerCase().includes('process')) return `Process is disallowed.`;
