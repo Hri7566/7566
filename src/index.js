@@ -9,6 +9,8 @@ const chokidar = require('chokidar');
 const { join } = require('path');
 const errormsgs = require('./errors');
 const Jobs = require('./Jobs');
+const { Database } = require('./Database');
+const Command = require('./Command.js');
 
 function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
@@ -40,6 +42,7 @@ class Bot extends StaticEventEmitter {
     }
     
     static loadCommands() {
+        console.log('Loading commands...');
         const files = fs.readdirSync(join(__dirname, 'Commands'));
         files.forEach(file => {
             try {
@@ -47,13 +50,14 @@ class Bot extends StaticEventEmitter {
                 delete require.cache[join(__dirname, './Commands', file)];
                 let cmd = require(join(__dirname, './Commands', file));
                 this.commands.register(cmd.id, cmd);
-                console.log('added command ' + cmd.id);
+                // console.log('added command ' + cmd.id);
                 // console.log(cmd.func.toString());
             } catch (err) {
                 console.error(`Error loading command ${file}`);
                 console.error(err);
             }
         });
+        console.log('Finished loading commands.');
     }
 
     static watchCommandFolder() {
@@ -90,7 +94,7 @@ class Bot extends StaticEventEmitter {
         msg = new BotIncomingChatMessage(msg);
         if (!msg.hasOwnProperty('usedPrefix')) return;
 
-        DeferredRegister.grab(val => {
+        DeferredRegister.grab(async val => {
             let cmd = val[1];
             if (!cmd) return;
 
@@ -100,11 +104,18 @@ class Bot extends StaticEventEmitter {
                     canContinue = true;
                 }
             }
-            
             if (!canContinue) return;
+
+            let user = await Database.createUser(msg.p);
+            if (user.rank.id < cmd.rank) {
+                client.sendChat("You do not have permission to use this command.");
+                return;
+            }
+
+            if (msg.args.length - 1 < cmd.args) return client.sendChat(`Not enough arguments. Usage: ${Command.getUsage(cmd.usage, msg.usedPrefix.accessor)}`);
             
             try {
-                let out = cmd.func(msg, client);
+                let out = await cmd.func(msg, client);
                 if (out !== null && out !== undefined) {
                     client.emit('send', new ClientChatMessage(out));
                 }

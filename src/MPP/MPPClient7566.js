@@ -40,7 +40,7 @@ class MPPClient7566 extends Client7566 {
         this.client.on('hi', msg => {
             this.startCursorInterval();
             this.userset();
-            console.log('MPP Online');
+            console.log('MPP Bot Online');
         });
 
         this.client.on('a', msg => {

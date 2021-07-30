@@ -1,4 +1,4 @@
-const { createUser, getUser } = require("./Database");
+const { Database } = require("./Database");
 const { ServerChatMessage } = require("./Message");
 const RegisterEventEmitter = require("./RegisterEventEmitter");
 
@@ -10,13 +10,9 @@ class Client7566 extends RegisterEventEmitter {
     }
 
     bindEventListeners() {
-        this.on("send", msg => {
-
-        });
-
         this.on("receive", async (msg, cl) => {
-            await createUser(msg.p);
-            msg.user = await getUser(msg.p._id);
+            await Database.createUser(msg.p);
+            msg.user = await Database.getUser(msg.p._id);
             Bot.emit("receive", msg, cl);
         });
 

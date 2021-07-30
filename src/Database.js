@@ -15,6 +15,7 @@ const rankSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     _id: String,
     name: String,
+    color: String,
     rank: rankSchema,
     flags: Object
 });
@@ -36,7 +37,9 @@ class Database {
     static async getUser(_id) {
         let user = await User.findOne({_id: _id}).exec();
         if (user !== null) {
+            if (typeof user.rank == "undefined") user.rank = new Rank({_id: 0, name: "None"}), user.save();
             if (typeof user.rank.id == "undefined") user.rank.id = 0, user.save();
+            if (!user.hasOwnProperty('color')) user.color = "#777";
         }
         return user;
     }
@@ -45,18 +48,21 @@ class Database {
         if (!p) return;
         if (!p.hasOwnProperty('_id')) return;
         let already = await Database.getUser(p._id);
+        // console.log(already);
         if (already !== null) return already;
         try {
             let user = await new User({
                 _id: p._id,
                 name: p.name,
                 rank: p.rank || new Rank({_id: 0, name: "None", id: 0}),
+                color: p.color || "#777",
                 flags: {}
             });
             
             // await user.rank.save();
             await user.save();
 
+            user = await Database.getUser(p._id);
             return user;
         } catch (err) {
             console.error(err);
@@ -89,6 +95,7 @@ class Database {
 
             await job.save();
 
+            job = Database.getJob(job.user_id);
             return job;
         } catch (err) {
             console.error(err);
@@ -106,6 +113,15 @@ class Database {
     static async getAllJobs() {
         return await Job.find({});
     }
+
+    static async updateJob() {
+
+    }
 }
 
-module.exports = Database;
+module.exports = {
+    Database,
+    User,
+    Rank,
+    Job
+};
