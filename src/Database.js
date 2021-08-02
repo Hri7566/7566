@@ -114,8 +114,16 @@ class Database {
         return await Job.find({});
     }
 
-    static async updateJob() {
+    static async updateJob(user_id, job) {
+        let j = await this.getJob(user_id);
 
+        j.job_id = job.job_id;
+        j.user_id = job.user_id;
+        j.stopDate = job.stopDate;
+
+        j.save();
+
+        return await this.getJob(j.user_id);
     }
 }
 

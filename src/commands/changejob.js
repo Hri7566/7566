@@ -6,7 +6,15 @@ module.exports = new Command('changejob', ['changejob', 'cj', 'joblist', 'jl'], 
     let jl = Jobs.getJobList();
 
     if (msg.args[1]) {
-        out = "not finished!";
+        let job;
+
+        for (let i of Object.keys(jl)) {
+            if (msg.argcat.toLowerCase() == jl[i].displayName.toLowerCase()) {
+                job = jl[i];
+            }
+        }
+
+        out = `test: ${job.displayName}`;
     } else {
         out = `Jobs:`;
 

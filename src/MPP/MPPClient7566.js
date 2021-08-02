@@ -3,6 +3,7 @@ const MPPClient = require('./MPPClient');
 const Cursor = require('./Cursor');
 const Vector2 = require('../Geometry/Vector2');
 const { ClientChatMessage, ServerChatMessage } = require('../Message');
+const Logger = require('../Logger');
 
 class MPPClient7566 extends Client7566 {
     constructor (uri, room, token, proxy) {
@@ -11,6 +12,7 @@ class MPPClient7566 extends Client7566 {
         this.room = room;
         this.proxy = proxy;
 
+        this.logger = new Logger("MPP");
         this.cursor = new Cursor();
 
         this.client.start();
@@ -40,7 +42,9 @@ class MPPClient7566 extends Client7566 {
         this.client.on('hi', msg => {
             this.startCursorInterval();
             this.userset();
-            console.log('MPP Bot Online');
+            
+            this.sendChat("✔️ Online");
+            this.logger.log(`Online in ${this.room}`);
         });
 
         this.client.on('a', msg => {

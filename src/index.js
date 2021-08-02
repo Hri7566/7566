@@ -11,17 +11,22 @@ const errormsgs = require('./errors');
 const Jobs = require('./Jobs');
 const { Database } = require('./Database');
 const Command = require('./Command.js');
+const Logger = require('./Logger.js');
+const mppServer = require("./WebSocket/Server.js");
 
 function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
 const MPP_ENABLED = process.env.MPP_ENABLED == "true";
 const DISCORD_ENABLED = process.env.DISCORD_ENABLED == "true";
+const MPP_SERVER_ENABLED = process.env.MPP_SERVER_ENABLED == "true";
 
 class Bot extends StaticEventEmitter {
     static clients = new DeferredRegister('client');
     static commands = new DeferredRegister('command');
     static prefixes = require('./prefixes');
     static started = false;
+
+    static logger = new Logger("Bot");
 
     static start(roomList) {
         if (this.started) return;
@@ -32,6 +37,7 @@ class Bot extends StaticEventEmitter {
         this.watchCommandFolder();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
+        if (MPP_SERVER_ENABLED) mppServer.Server.start();
     }
     
     static startMPPClients(list) {
@@ -47,7 +53,7 @@ class Bot extends StaticEventEmitter {
     }
     
     static loadCommands() {
-        console.log('Loading commands...');
+        this.logger.log('Loading commands...');
         const files = fs.readdirSync(join(__dirname, 'commands'));
         files.forEach(file => {
             try {
@@ -62,7 +68,7 @@ class Bot extends StaticEventEmitter {
                 console.error(err);
             }
         });
-        console.log('Finished loading commands.');
+        this.logger.log('Finished loading commands.');
     }
 
     static watchCommandFolder() {

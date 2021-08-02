@@ -1,15 +1,16 @@
 const Client7566 = require('../Client7566');
 const Discord = require('discord.js');
 const { ServerChatMessage } = require('../Message');
+const Logger = require('../Logger');
 
 class MPPClient7566 extends Client7566 {
     constructor (token) {
         super('discord');
+        this.logger = new Logger("Discord")
         this.client = new Discord.Client();
         this.client.login(token);
         
         this.currentChannel;
-
         this.bindClientEventListeners();
     }
     
@@ -22,6 +23,10 @@ class MPPClient7566 extends Client7566 {
     }
 
     bindClientEventListeners() {
+        this.client.on('ready', msg => {
+            this.logger.log("Online");
+        });
+
         this.client.on('message', msg => {
             if (msg.author.id == this.client.user.id) return;
             this.currentChannel = msg.channel;
