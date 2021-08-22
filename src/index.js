@@ -1,20 +1,29 @@
+/** ::::::::::: ::::::::::  ::::::::   ::::::::  
+ *  :+:     :+: :+:    :+: :+:    :+: :+:    :+: 
+ *         +:+  +:+        +:+        +:+        
+ *        +#+   +#++:++#+  +#++:++#+  +#++:++#+  
+ *       +#+           +#+ +#+    +#+ +#+    +#+ 
+ *      #+#     #+#    #+# #+#    #+# #+#    #+# 
+ *      ###      ########   ########   ########  
+ */
+
 const StaticEventEmitter = require('./StaticEventEmitter.js');
 const MPPClient7566 = require("./MPP/MPPClient7566");
 const DiscordClient7566 = require("./Discord/DiscordClient7566");
-const os = require('os');
 const DeferredRegister = require('./DeferredRegister.js');
 const { BotIncomingChatMessage, ClientChatMessage } = require('./Message.js');
-const fs = require('fs');
-const chokidar = require('chokidar');
-const { join } = require('path');
 const errormsgs = require('./errors');
-const Jobs = require('./Jobs');
 const { Database } = require('./Database');
 const Command = require('./Command.js');
 const Logger = require('./Logger.js');
 const mppServer = require("./WebSocket/Server.js");
 
-function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
+const os = require('os');
+const fs = require('fs');
+const { join } = require('path');
+const chokidar = require('chokidar');
+
+// function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
 const MPP_ENABLED = process.env.MPP_ENABLED == "true";
 const DISCORD_ENABLED = process.env.DISCORD_ENABLED == "true";
@@ -33,7 +42,6 @@ class Bot extends StaticEventEmitter {
         this.started = true;
         this.bindEventListeners();
         this.loadCommands();
-        Jobs.registerJobs();
         this.watchCommandFolder();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
@@ -75,7 +83,7 @@ class Bot extends StaticEventEmitter {
         chokidar.watch(join(__dirname, './commands')).on('change', (path, stats) => {
             this.commands = new DeferredRegister('command');
             for (let i in DeferredRegister.registry) {
-                console.log(i);
+                // console.log(i);
             }
             this.loadCommands();
         });

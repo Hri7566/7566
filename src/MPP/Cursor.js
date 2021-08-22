@@ -145,6 +145,85 @@ class Cursor {
 
         }
     }
+
+    defaultFigureC() {
+        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
+        this.velocity = new Vector2(1, 2);
+
+        let angle = 0;
+
+        let width = 10;
+        let height = 10;
+
+        let r = 0;
+
+        let x = 50;
+        let velx = 2/5;
+        let vely = 2/7;
+        let y = 50;
+
+        this.func = () => {
+            this.time = Date.now();
+            this.deltaTime = (this.time - this.old.time)/1000;
+
+            angle += 0.01;
+
+            this.position.x = ((Math.floor(Math.sin(8 * angle) * 100)/100) * width) + x;
+            // console.log(angle + ": " + this.position.x);
+
+            this.position.y = ((Math.floor(Math.sin(13 * angle) * 100)/100) * width) + y;
+
+            // if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+            //     this.position.y = SCREEN_BOUNDARIES.top;
+            // }
+
+            x += velx;
+            y += vely;
+
+            if (x > 90 || x < 10) {
+                velx = -velx;
+            }
+
+            if (y > 90 || y < 10) {
+                vely = -vely;
+            }
+
+            this.old.position.x = this.position.x;
+            this.old.time = Date.now();
+        }
+    }
+
+    rave() {
+        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
+        this.velocity = new Vector2(1, 2);
+
+        let angle = 0;
+
+        let width = 10;
+        let height = 10;
+
+        let r = 0;
+
+        this.func = () => {
+            this.time = Date.now();
+            this.deltaTime = (this.time - this.old.time)/1000;
+
+            angle += 0.1;
+
+            this.position.x = ((Math.floor(Math.cos(2 * angle) * 100)/100) * width) + 50
+            // console.log(angle + ": " + this.position.x);
+
+            this.position.y = ((Math.floor(Math.tan(3 * angle) * 100)/100) * width) + 50
+
+            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                this.position.y = SCREEN_BOUNDARIES.top;
+            }
+
+            this.old.position.x = this.position.x;
+            this.old.time = Date.now();
+
+        }
+    }
 }
 
 module.exports = Cursor;

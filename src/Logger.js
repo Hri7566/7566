@@ -1,36 +1,21 @@
+const chalk = require('chalk');
 
-const { Console } = require("console");
-const EventEmitter = require("events");
-
-class Logger extends EventEmitter {
-    constructor(id) {
-        super();
-
+class Logger {
+    constructor(id, color) {
         this.id = id;
-
-        this.on('log', str => {
-            this.log(str);
-        });
-
-        this.on('error', str => {
-            this.error(str);
-        });
-
-        this.on('warn', str => {
-            this.warn(str);
-        });
+        this.color = color || chalk.blue;
     }
 
     log(...args) {
-        console.log(`[${this.id}]`, ...args);
+        console.log(chalk.bgBlue(`INFO`), this.color(this.id), ...args);
     }
 
     error(...args) {
-        console.error(`[ERR] [${this.id}]`, ...args)
+        console.error(chalk.bgRed(`ERR`), this.color(this.id), ...args)
     }
 
     warn(...args) {
-        console.warn(`[WARN] [${this.id}]`, ...args);
+        console.warn(chalk.bgYellow(`WARN`), this.color(this.id), ...args);
     }
 }
 
