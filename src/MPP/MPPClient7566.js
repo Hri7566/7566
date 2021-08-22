@@ -43,7 +43,7 @@ class MPPClient7566 extends Client7566 {
             this.startCursorInterval();
             this.userset();
             
-            // this.sendChat("✔️ Online");
+            this.sendChat("✔️ Online");
             this.logger.log(`Online in ${this.room}`);
         });
 
