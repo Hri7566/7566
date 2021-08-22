@@ -55,7 +55,7 @@ class Bot extends StaticEventEmitter {
     }
 
     static startMPPClient(uri, room) {
-        let cl = new MPPClient7566(uri, room, process.env.MPPCPASSWORD, undefined);
+        let cl = new MPPClient7566(uri+room, uri, room, process.env.MPPCPASSWORD, undefined);
         this.clients.register(uri+room, cl);
         return cl;
     }

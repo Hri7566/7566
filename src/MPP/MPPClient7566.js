@@ -6,8 +6,8 @@ const { ClientChatMessage, ServerChatMessage } = require('../Message');
 const Logger = require('../Logger');
 
 class MPPClient7566 extends Client7566 {
-    constructor (uri, room, token, proxy) {
-        super('mpp');
+    constructor (id, uri, room, token, proxy) {
+        super(id, 'mpp');
         this.client = new MPPClient(uri, token);
         this.room = room;
         this.proxy = proxy;
@@ -35,7 +35,7 @@ class MPPClient7566 extends Client7566 {
 
         this.on('send', msg => {
             this.sendChat(msg.message);
-        })
+        });
     }
 
     bindClientEventListeners() {
@@ -43,7 +43,7 @@ class MPPClient7566 extends Client7566 {
             this.startCursorInterval();
             this.userset();
             
-            this.sendChat("✔️ Online");
+            // this.sendChat("✔️ Online");
             this.logger.log(`Online in ${this.room}`);
         });
 
@@ -52,7 +52,10 @@ class MPPClient7566 extends Client7566 {
             if (msg.m !== 'a') return;
             let m = new ServerChatMessage(msg.a, msg.p);
 
-            this.emit('receive', m, this);
+            let self = false;
+            if (msg.p._id == this.client.getOwnParticipant()._id) self = true;
+
+            this.emit('receive', m, this, self);
         });
     }
 

@@ -4,8 +4,8 @@ const { ServerChatMessage } = require("./Message");
 const RegisterEventEmitter = require("./RegisterEventEmitter");
 
 class Client7566 extends RegisterEventEmitter {
-    constructor (context) {
-        super();
+    constructor (id, context) {
+        super(id);
         this.context = context;
         this.bindEventListeners();
         this.logger = new Logger("Detached Client");

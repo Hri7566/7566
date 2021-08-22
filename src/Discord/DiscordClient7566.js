@@ -3,9 +3,9 @@ const Discord = require('discord.js');
 const { ServerChatMessage } = require('../Message');
 const Logger = require('../Logger');
 
-class MPPClient7566 extends Client7566 {
+class DiscordClient7566 extends Client7566 {
     constructor (token) {
-        super('discord');
+        super('discord', 'discord');
         this.logger = new Logger("Discord")
         this.client = new Discord.Client();
         this.client.login(token);
@@ -53,4 +53,4 @@ class MPPClient7566 extends Client7566 {
     }
 }
 
-module.exports = MPPClient7566;
+module.exports = DiscordClient7566;

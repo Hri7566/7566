@@ -1,8 +1,8 @@
 const RegisterObject = require("./RegisterObject");
 
 class RegisterEventEmitter extends RegisterObject {
-    constructor() {
-        super();
+    constructor(id) {
+        super(id);
         this._events = {};
     }
 
