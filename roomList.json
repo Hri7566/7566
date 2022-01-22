@@ -1,10 +1,6 @@
 {
-    "devroom": {
-        "_id": "✧𝓓𝓔𝓥 𝓡𝓸𝓸𝓶✧",
+    "bot test room": {
+        "_id": "Classical :\")",
         "uri": "wss://mppclone.com:8443"
-    },
-    "lobby": {
-        "_id": "lobby",
-        "uri": "wss://www.multiplayerpiano.net:8443"
     }
 }
