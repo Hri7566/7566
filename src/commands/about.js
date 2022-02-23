@@ -1,5 +1,6 @@
 const Command = require("../Command");
 
 module.exports = new Command('about', ['about', 'a'], `%PREFIX%about`, undefined, (msg, cl) => {
-    return `By Hri7566#3409 with help from Karl © 2018-2022`;
+    const currentYear = new Date().getFullYear();
+    return `© The Dev Channel, Hri7566 2018-${currentYear}`;
 }, 0, 0, false);
