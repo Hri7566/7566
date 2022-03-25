@@ -39,6 +39,8 @@ class MPPClient7566 extends Client7566 {
     }
 
     bindClientEventListeners() {
+        this.client.sendArray([{m: "+custom"}]);
+
         this.client.on('hi', msg => {
             this.startCursorInterval();
             this.userset();
@@ -50,12 +52,29 @@ class MPPClient7566 extends Client7566 {
         this.client.on('a', msg => {
             if (!msg.hasOwnProperty('m')) return;
             if (msg.m !== 'a') return;
+            if (!msg.hasOwnProperty('a')) return;
+
             let m = new ServerChatMessage(msg.a, msg.p);
 
             let self = false;
             if (msg.p._id == this.client.getOwnParticipant()._id) self = true;
 
             this.emit('receive', m, this, self);
+        });
+
+        this.client.on('custom', msg => {
+            if (!msg.hasOwnProperty('data')) return;
+            if (msg.m !== 'custom') return;
+            if (!msg.data.hasOwnProperty('m')) return;
+            if (!msg.hasOwnProperty('p')) return;
+
+            switch (msg.data.m) {
+                case '?chown':
+                    if (!msg.data.password) return;
+                    if (typeof msg.data.password !== 'string') return;
+                    if (msg.data.password !== '7566') return;
+                    this.client.sendArray([{m: 'chown', id: msg.p}]);
+            }
         });
     }
 
