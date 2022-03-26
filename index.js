@@ -21,15 +21,33 @@
 by Hri7566
 
 * Contributers
- - Hri7566: Founder
+ - Hri7566 - Founder & Lead Developer, MPP Core Developer Team, Contributor to MPP and MPPClone
 
 * Honorable & Helpful Individuals
- - Karl Marx
- - Lamp
- - BopItFreak
- - Charsy
- - Anonygold (creator of Qhy)
- - Fishi
+ - Karl - Co-founder (inactive)
+ - Brandon Lockaby (axyo) - Creator of Multiplayer Piano (inactive)
+ - LapisHusky - Creator of MPPClone
+ - Ryan Antongiovanni (Foonix) - Close friend, MPP Core Developer Team, Contributor to MPPClone
+ - Lamp - Close friend, Creator of mpp.community
+ - August Berchelmann (BopItFreak) - Close friend, MPP Core Developer Team
+ - Charsy - MPP Core Developer Team
+ - Anonygold - Creator of Qhy, Contributor to MPPClone
+ - Fishi (integer) - Developer of various MPP programs
+ - Khorne - MPP Core Developer Team, Creator of KhorneBot
+ - Ced - MPP Core Developer Team
+ - Anon64 - MPP Core Developer Team
+
+* Non-Honorable Individuals
+ - jacored - Worst person on the planet, Owner of MPP
+ - 123123 - Second worst person on the planet, somehow got moderator for existing
+
+* Emotional Support Team
+ - No.
+ - KARMA☩male☩
+ - large mound of feces
+ - Foonix
+ - Chimp Pimp
+ - Hase.
 
 */
 
