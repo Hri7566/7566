@@ -43,9 +43,10 @@ by Hri7566
 
 * Emotional Support Team
  - No.
+ - Intel
+ - Foonix
  - KARMA☩male☩
  - large mound of feces
- - Foonix
  - Chimp Pimp
  - Hase.
 
