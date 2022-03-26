@@ -1,0 +1,27 @@
+{
+    "devroom": {
+        "_id": "The Dev Channel",
+        "uri": "wss://mppclone.com:8443"
+    },
+    "ogdev": {
+        "_id": "✧𝓓𝓔𝓥 𝓡𝓸𝓸𝓶✧",
+        "uri": "wss://mppclone.com:8443"
+    },
+    "fishing": {
+        "_id": "test/fishing",
+        "uri": "wss://mppclone.com:8443"
+    },
+    "hmpplobby": {
+        "_id": "lobby",
+        "uri": "wss://mpp.hri7566.info:8443"
+    },
+    "hmppawkward": {
+        "_id": "test/awkward",
+        "uri": "wss://mpp.hri7566.info:8443"
+    },
+    "hmppfishing": {
+        "_id": "test/fishing",
+        "uri": "wss://mpp.hri7566.info:8443"
+    }
+}
+
