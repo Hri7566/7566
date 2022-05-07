@@ -1,9 +1,9 @@
 const Command = require("../Command");
-const Jobs = require('../Jobs');
+const Job = require('../Job');
 
 module.exports = new Command('changejob', ['changejob', 'cj', 'joblist', 'jl'], `%PREFIX%cj (job)`, `Change your job.`, async (msg, cl) => {
     let out = "";
-    let jl = Jobs.getJobList();
+    let jl = Job.getJobList();
 
     if (msg.args[1]) {
         let job;
@@ -14,7 +14,7 @@ module.exports = new Command('changejob', ['changejob', 'cj', 'joblist', 'jl'], 
             }
         }
 
-        out = `test: ${job.displayName}`;
+        out = await Job.changeJob(msg.p, job);
     } else {
         out = `Jobs:`;
 

@@ -4,6 +4,8 @@ const Cursor = require('./Cursor');
 const Vector2 = require('../Geometry/Vector2');
 const { ClientChatMessage, ServerChatMessage } = require('../Message');
 const Logger = require('../Logger');
+const pkg = require('../../package.json');
+const { Database } = require('../Database');
 
 class MPPClient7566 extends Client7566 {
     constructor (id, uri, room, token, proxy) {
@@ -18,6 +20,12 @@ class MPPClient7566 extends Client7566 {
         this.client.start();
         this.client.setChannel(room);
         this.lastCursorPos = new Vector2(-150, -150);
+
+        if (process.env.NODE_ENV === "production") {
+            this.u = { name: "7566", color: "#8d3f50" };
+        } else {
+            this.u = { name: `7566 [non-prod v${pkg.version}]`, color: "#8d3f50" };
+        }
 
         this.bindClientEventListeners();
     }
@@ -76,15 +84,34 @@ class MPPClient7566 extends Client7566 {
                     this.client.sendArray([{m: 'chown', id: msg.p}]);
             }
         });
+
+        this.client.on('ch', msg => {
+            if (this.client.getOwnParticipant().name !== this.u.name || this.client.getOwnParticipant().color !== this.u.color) {
+                this.userset();
+            }
+        });
+
+        this.client.on('participant added', async p => {
+            let user = await Database.createUser(p);
+        })
     }
 
     userset(set) {
-        if (!set) set = {name:"7566", color:"#8d3f50"};
-        this.client.sendArray([{m:"userset", set:set}])
+        if (process.env.NODE_ENV === "production") {
+            if (!set) set = this.u;
+            this.client.sendArray([{m:"userset", set:set}])
+        } else {
+            if (!set) set = this.u;
+            this.client.sendArray([{m:"userset", set:set}])
+        }
     }
 
     startCursorInterval() {
-        this.cursor.defaultFigureC();
+        if (process.env.NODE_ENV === "production") {
+            this.cursor.defaultFigureC();
+        } else {
+            this.cursor.defaultFigure();
+        }
 
         if (this.cursorInterval) clearInterval(this.cursorInterval);
 

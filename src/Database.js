@@ -27,9 +27,18 @@ const jobSchema = new mongoose.Schema({
     flags: Object
 });
 
+const inventorySchema = new mongoose.Schema({
+    user_id: String,
+    items: Object
+}, {
+    minimize: false,
+    versionKey: false
+});
+
 const User = mongoose.model('User', userSchema);
 const Rank = mongoose.model('Rank', rankSchema);
 const Job = mongoose.model('Job', jobSchema);
+const Inventory = mongoose.model('Inventory', inventorySchema);
 
 class Database {
     static db = mongoose.connection;
@@ -42,6 +51,11 @@ class Database {
             if (!user.hasOwnProperty('color')) user.color = "#777";
         }
         return user;
+    }
+
+    static async getUserFuzzy(_id) {
+        let user = await User.findOne({_id: {$regex: _id}}).exec();
+        return await this.getUser(user._id);
     }
 
     static async createUser(p) {
@@ -125,11 +139,33 @@ class Database {
 
         return await this.getJob(j.user_id);
     }
+
+    static async createInventory(_id, items) {
+        if (!_id) return;
+        if (!items) items = {};
+        let already = await Database.getInventory(_id);
+        if (already !== null) return already;
+        try {
+            await new Inventory({
+                user_id: _id,
+                items: items
+            }).save();
+        } catch (err) {
+            console.error(err);
+        }
+        return await Database.getInventory(_id);
+    }
+
+    static async getInventory(_id) {
+        let inventory = await Inventory.findOne({user_id: _id}).exec();
+        return inventory;
+    }
 }
 
 module.exports = {
     Database,
     User,
     Rank,
-    Job
+    Job,
+    Inventory
 };
