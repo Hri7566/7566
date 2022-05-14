@@ -1,6 +1,5 @@
 const Command = require("../Command");
 const { Rank, Database } = require("../Database");
-const Jobs = require('../Jobs');
 
 module.exports = new Command('setrank', ['setrank'], `%PREFIX%setrank (user _id) (rank id) (rank name)`, undefined, async (msg, cl) => {
     try {
