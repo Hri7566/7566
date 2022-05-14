@@ -1,6 +1,6 @@
 {
   "name": "7566",
-  "version": "2022w19-15.2.0-rc1",
+  "version": "15.1.2",
   "description": "mpp bot",
   "main": "index.js",
   "dependencies": {
