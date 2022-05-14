@@ -7,6 +7,20 @@
  *      ###      ########   ########   ########  
  */
 
+
+/**
+ * Module-level imports
+ */
+
+const os = require('os');
+const fs = require('fs');
+const { join } = require('path');
+const chokidar = require('chokidar');
+
+/**
+ * Module-level local imports
+ */
+
 const StaticEventEmitter = require('./StaticEventEmitter.js');
 const MPPClient7566 = require("./MPP/MPPClient7566");
 const DiscordClient7566 = require("./Discord/DiscordClient7566");
@@ -16,18 +30,23 @@ const errormsgs = require('./errors');
 const { Database } = require('./Database');
 const Command = require('./Command.js');
 const Logger = require('./Logger.js');
-const mppServer = require("./WebSocket/Server.js");
+const { WSServer } = require('./wsserver');
 
-const os = require('os');
-const fs = require('fs');
-const { join } = require('path');
-const chokidar = require('chokidar');
+/**
+ * Module-level constants
+ */
 
 // function nocache(module) {require("fs").watchFile(require("path").resolve(module), () => {delete require.cache[require.resolve(module)]})}
 
 const MPP_ENABLED = process.env.MPP_ENABLED == "true";
 const DISCORD_ENABLED = process.env.DISCORD_ENABLED == "true";
-const MPP_SERVER_ENABLED = process.env.MPP_SERVER_ENABLED == "true";
+// const MPP_SERVER_ENABLED = process.env.MPP_SERVER_ENABLED == "true";
+const WS_ENABLED = process.env.WS_ENABLED == "true";
+const PORT = process.env.PORT || 7566;
+
+/**
+ * Module-level declarations
+ */
 
 class Bot extends StaticEventEmitter {
     static clients = new DeferredRegister('client');
@@ -45,7 +64,8 @@ class Bot extends StaticEventEmitter {
         this.watchCommandFolder();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
-        if (MPP_SERVER_ENABLED) mppServer.Server.start();
+        // if (MPP_SERVER_ENABLED) mppServer.Server.start();
+        if (WS_ENABLED) WSServer.start(PORT);
     }
     
     static startMPPClients(list) {
@@ -145,5 +165,9 @@ class Bot extends StaticEventEmitter {
         }, "command");
     }
 }
+
+/**
+ * Module-level exports
+ */
 
 module.exports = Bot;

@@ -8,4 +8,4 @@ module.exports = new Command('uptime', ['uptime', 'ut'], `%PREFIX%uptime`, `Get 
     let uptime_d = Math.floor(uptime / 60 / 60 / 24);
     let out = `Uptime: ${uptime_d}d ${uptime_h}h ${uptime_m}m ${uptime_s}s`;
     return out;
-}, 0, 3, false);
+}, 0, 0, false);
