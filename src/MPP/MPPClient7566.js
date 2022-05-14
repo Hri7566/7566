@@ -7,6 +7,8 @@ const Logger = require('../Logger');
 const pkg = require('../../package.json');
 const { Database } = require('../Database');
 
+const NODE_ENV = process.env.NODE_ENV || 'production';
+
 class MPPClient7566 extends Client7566 {
     constructor (id, uri, room, token, proxy) {
         super(id, 'mpp');
@@ -53,7 +55,9 @@ class MPPClient7566 extends Client7566 {
             this.startCursorInterval();
             this.userset();
             
-            // this.sendChat("✔️ Online");
+            if (NODE_ENV === "production") {
+                this.sendChat("✔️ Connected");
+            }
             this.logger.log(`Online in ${this.room}`);
         });
 
