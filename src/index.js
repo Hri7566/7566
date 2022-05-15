@@ -51,6 +51,7 @@ const PORT = process.env.PORT || 7566;
 class Bot extends StaticEventEmitter {
     static clients = new DeferredRegister('client');
     static commands = new DeferredRegister('command');
+    static items = new DeferredRegister('item');
     static prefixes = require('./prefixes');
     static started = false;
 
@@ -62,6 +63,7 @@ class Bot extends StaticEventEmitter {
         this.bindEventListeners();
         this.loadCommands();
         this.watchCommandFolder();
+        this.loadItems();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
         // if (MPP_SERVER_ENABLED) mppServer.Server.start();
@@ -107,6 +109,22 @@ class Bot extends StaticEventEmitter {
             }
             this.loadCommands();
         });
+    }
+
+    static loadItems() {
+        this.logger.log('Loading items...');
+        const files = fs.readdirSync(join(__dirname, 'items'));
+        files.forEach(file => {
+            try {
+                delete require.cache[join(__dirname, './items', file)];
+                let item = require(join(__dirname, './items', file));
+                this.items.register(item.id, item);
+            } catch (err) {
+                console.error(`Error loading item ${file}`);
+                console.error(err);
+            }
+        });
+        this.logger.log('Finished loading items.');
     }
 
     static bindEventListeners() {
