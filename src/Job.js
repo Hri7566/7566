@@ -7,7 +7,7 @@ class Job {
     }
 
     static changeJob(p, job) {
-
+        
     }
 }
 
