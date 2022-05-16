@@ -1,5 +1,6 @@
 const RegisterObject = require('./RegisterObject');
 const itemPriceList = require('./itemPriceList');
+const DeferredRegister = require('./DeferredRegister');
 
 class Item extends RegisterObject {
     static getPriceListing(item) {
@@ -47,7 +48,17 @@ class FoodItem extends Item {
 
 class InventoryItem {
     static getRealItem(name) {
-        return RegisterObject.get(name);
+        return DeferredRegister.registry.get(`item:${name}`);
+    }
+
+    static getRealItemFuzzy(name) {
+        for (let [key, val] of DeferredRegister.registry) {
+            if (key.startsWith('item:')) {
+                if (val.id.toLowerCase().includes(name.toLowerCase())) {
+                    return val;
+                }
+            }
+        }
     }
 
     constructor(name, amount) {
