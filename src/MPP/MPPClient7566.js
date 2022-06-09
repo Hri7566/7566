@@ -113,9 +113,11 @@ class MPPClient7566 extends Client7566 {
 
     startCursorInterval() {
         if (process.env.NODE_ENV === "production") {
-            this.cursor.defaultFigureC();
+            // this.cursor.defaultFigureC();
+            this.cursor.patterns.get('figurec')();
         } else {
-            this.cursor.defaultFigure();
+            // this.cursor.defaultFigure();
+            this.cursor.patterns.get('figure')();
         }
 
         if (this.cursorInterval) clearInterval(this.cursorInterval);
@@ -141,14 +143,17 @@ class MPPClient7566 extends Client7566 {
         //     if (count > 3) count = 0;
         // }, 30000);
 
-        this.cursorInterval = setInterval(() => {
+        this.cursorUpdateInterval = setInterval(() => {
             this.cursor.func();
+        }, 1000 / 60);
+
+        this.cursorInterval = setInterval(() => {
             // this is entirely borked ;-;
             // if (this.cursor.position.x !== this.lastCursorPos.x && this.cursor.position.y !== this.lastCursorPos.y) {
                 this.emit('cursor', this.cursor.position.x, this.cursor.position.y);
                 // this.lastCursorPos = this.cursor.position;
             // }
-        }, 1000/25);
+        }, 1000 / 20);
     }
 
     sendChat(txt) {

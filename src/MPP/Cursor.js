@@ -24,205 +24,235 @@ class Cursor {
             position: new Vector2(0, 0),
             acceleration: new Vector2(0, 0)
         };
-    }
 
-    func() {
+        let patterns = new Map();
 
-    }
+        patterns.set("dvd", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.left + Math.random() * SCREEN_BOUNDARIES.right, SCREEN_BOUNDARIES.top + Math.random() * SCREEN_BOUNDARIES.bottom);
+            this.velocity = new Vector2(1, 1);
 
-    defaultDVD() {
-        this.position = new Vector2(Math.random() * SCREEN_BOUNDARIES.right, Math.random() * SCREEN_BOUNDARIES.bottom);
-        this.velocity = new Vector2(1, 2);
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
 
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
+                this.position.x += this.velocity.x * this.deltaTime;
+                this.position.y += this.velocity.y * this.deltaTime;
+                
+                if (this.position.y < SCREEN_BOUNDARIES.top || this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.velocity.y = -this.velocity.y;
+                }
 
-            this.position.x += this.velocity.x * this.deltaTime;
-            this.position.y += this.velocity.y * this.deltaTime;
-            
-            if (this.position.y < SCREEN_BOUNDARIES.top || this.position.y > SCREEN_BOUNDARIES.bottom) {
-                this.velocity.y = -this.velocity.y;
+                if (this.position.x < SCREEN_BOUNDARIES.left || this.position.x > SCREEN_BOUNDARIES.right) {
+                    this.velocity.x = -this.velocity.x;
+                }
+
+                this.old.time = Date.now();
             }
+        });
 
-            if (this.position.x < SCREEN_BOUNDARIES.left || this.position.x > SCREEN_BOUNDARIES.right) {
-                this.velocity.x = -this.velocity.x;
+        patterns.set("leaf", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
+            this.velocity = new Vector2(1, 2);
+
+            let angle = 0;
+
+            let width = 5;
+
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
+
+                angle += 3 * this.deltaTime;
+
+                this.position.x = (((Math.floor(Math.sin(angle) * 100)/100) * width)) + 50;
+                // console.log(angle + ": " + this.position.x);
+                
+                this.velocity.y = (Math.abs(this.old.position.x - this.position.x)/2) - Math.sin(angle*2)/((10 + 5)/width) + 0.01;
+
+                this.position.y += this.velocity.y/1.5;
+
+                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.position.y = SCREEN_BOUNDARIES.top;
+                }
+
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
             }
+        });
 
-            this.old.time = Date.now();
-        }
-    }
+        patterns.set("figure", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
+            this.velocity = new Vector2(1, 2);
 
-    defaultLeaf() {
-        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
-        this.velocity = new Vector2(1, 2);
+            let angle = 0;
 
-        let angle = 0;
+            let width = 10;
+            let height = 10;
 
-        let width = 5;
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
 
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
+                angle += 3 * this.deltaTime;
 
-            angle += 0.1;
+                this.position.x = (((Math.floor(Math.sin(angle) * 100)/100) * width)) + 50;
+                // console.log(angle + ": " + this.position.x);
+                
+                this.velocity.y = 50 - height + (Math.sin(angle*2)/((10 + 5)/width) + 1) * height;
 
-            this.position.x = (((Math.floor(Math.sin(angle) * 100)/100) * width)) + 50;
-            // console.log(angle + ": " + this.position.x);
-            
-            this.velocity.y = (Math.abs(this.old.position.x - this.position.x)/2) - Math.sin(angle*2)/((10 + 5)/width) + 0.01;
+                this.position.y = this.velocity.y
 
-            this.position.y += this.velocity.y/1.5;
+                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.position.y = SCREEN_BOUNDARIES.top;
+                }
 
-            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-                this.position.y = SCREEN_BOUNDARIES.top;
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
             }
+        });
 
-            this.old.position.x = this.position.x;
-            this.old.time = Date.now();
-        }
-    }
+        patterns.set("figureb", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
+            this.velocity = new Vector2(1, 2);
 
-    defaultFigure() {
-        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
-        this.velocity = new Vector2(1, 2);
+            let angle = 0;
 
-        let angle = 0;
+            let width = 10;
+            let height = 10;
 
-        let width = 10;
-        let height = 10;
+            let r = 0;
 
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
 
-            angle += 0.1;
+                angle += 3 * this.deltaTime;
 
-            this.position.x = (((Math.floor(Math.sin(angle) * 100)/100) * width)) + 50;
-            // console.log(angle + ": " + this.position.x);
-            
-            this.velocity.y = 50 - height + (Math.sin(angle*2)/((10 + 5)/width) + 1) * height;
+                this.position.x = ((Math.floor(Math.sin(2 * angle) * 100)/100) * width) + 50
+                // console.log(angle + ": " + this.position.x);
 
-            this.position.y = this.velocity.y
+                this.position.y = ((Math.floor(Math.sin(3 * angle) * 100)/100) * width) + 50
 
-            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-                this.position.y = SCREEN_BOUNDARIES.top;
+                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.position.y = SCREEN_BOUNDARIES.top;
+                }
+
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
+
             }
+        });
 
-            this.old.position.x = this.position.x;
-            this.old.time = Date.now();
-        }
-    }
+        patterns.set("figurec", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
+            this.velocity = new Vector2(1, 2);
 
-    defaultFigureB() {
-        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.top);
-        this.velocity = new Vector2(1, 2);
+            let angle = 0;
 
-        let angle = 0;
+            let width = 10;
+            let height = 10;
 
-        let width = 10;
-        let height = 10;
+            let r = 0;
 
-        let r = 0;
+            let x = 50;
+            let velx = 2/5;
+            let vely = 2/7;
+            let y = 50;
 
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
 
-            angle += 0.1;
+                angle += 3 * this.deltaTime;
 
-            this.position.x = ((Math.floor(Math.sin(2 * angle) * 100)/100) * width) + 50
-            // console.log(angle + ": " + this.position.x);
+                this.position.x = ((Math.floor(Math.sin(8 * angle) * 100)/100) * width) + x;
+                // console.log(angle + ": " + this.position.x);
 
-            this.position.y = ((Math.floor(Math.sin(3 * angle) * 100)/100) * width) + 50
+                this.position.y = ((Math.floor(Math.sin(13 * angle) * 100)/100) * width) + y;
 
-            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-                this.position.y = SCREEN_BOUNDARIES.top;
+                // if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                //     this.position.y = SCREEN_BOUNDARIES.top;
+                // }
+
+                x += velx;
+                y += vely;
+
+                if (x > 90 || x < 10) {
+                    velx = -velx;
+                }
+
+                if (y > 90 || y < 10) {
+                    vely = -vely;
+                }
+
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
             }
+        });
 
-            this.old.position.x = this.position.x;
-            this.old.time = Date.now();
+        patterns.set("rave", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
+            this.velocity = new Vector2(1, 2);
 
-        }
-    }
+            let angle = 0;
 
-    defaultFigureC() {
-        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
-        this.velocity = new Vector2(1, 2);
+            let width = 10;
+            let height = 10;
 
-        let angle = 0;
+            let r = 0;
 
-        let width = 10;
-        let height = 10;
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
 
-        let r = 0;
+                angle += 1 * this.deltaTime;
 
-        let x = 50;
-        let velx = 2/5;
-        let vely = 2/7;
-        let y = 50;
+                this.position.x = ((Math.floor(Math.cos(2 * angle) * 100)/100) * width) + 50
+                // console.log(angle + ": " + this.position.x);
 
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
+                this.position.y = ((Math.floor(Math.tan(3 * angle) * 100)/100) * width) + 50
 
-            angle += 0.01;
+                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.position.y = SCREEN_BOUNDARIES.top;
+                }
 
-            this.position.x = ((Math.floor(Math.sin(8 * angle) * 100)/100) * width) + x;
-            // console.log(angle + ": " + this.position.x);
-
-            this.position.y = ((Math.floor(Math.sin(13 * angle) * 100)/100) * width) + y;
-
-            // if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-            //     this.position.y = SCREEN_BOUNDARIES.top;
-            // }
-
-            x += velx;
-            y += vely;
-
-            if (x > 90 || x < 10) {
-                velx = -velx;
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
             }
+        });
 
-            if (y > 90 || y < 10) {
-                vely = -vely;
+        patterns.set("circle", () => {
+            this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
+            this.velocity = new Vector2(1, 2);
+
+            let angle = 0;
+
+            let width = 10;
+            let height = 10;
+
+            let r = 0;
+
+            this.func = () => {
+                this.time = Date.now();
+                this.deltaTime = (this.time - this.old.time)/1000;
+
+                angle += 3 * this.deltaTime;
+
+                this.position.x = ((Math.floor(Math.cos(angle) * 100)/100) * width) + 50
+                // console.log(angle + ": " + this.position.x);
+
+                this.position.y = ((Math.floor(Math.sin(angle) * 100)/100) * width) + 50
+
+                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
+                    this.position.y = SCREEN_BOUNDARIES.top;
+                }
+
+                this.old.position.x = this.position.x;
+                this.old.time = Date.now();
             }
-
-            this.old.position.x = this.position.x;
-            this.old.time = Date.now();
-        }
-    }
-
-    rave() {
-        this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
-        this.velocity = new Vector2(1, 2);
-
-        let angle = 0;
-
-        let width = 10;
-        let height = 10;
-
-        let r = 0;
-
-        this.func = () => {
-            this.time = Date.now();
-            this.deltaTime = (this.time - this.old.time)/1000;
-
-            angle += 0.1;
-
-            this.position.x = ((Math.floor(Math.cos(2 * angle) * 100)/100) * width) + 50
-            // console.log(angle + ": " + this.position.x);
-
-            this.position.y = ((Math.floor(Math.tan(3 * angle) * 100)/100) * width) + 50
-
-            if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-                this.position.y = SCREEN_BOUNDARIES.top;
-            }
-
-            this.old.position.x = this.position.x;
-            this.old.time = Date.now();
-
-        }
+        });
+        
+        this.patterns = patterns;
     }
 }
 
