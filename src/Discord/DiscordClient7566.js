@@ -51,6 +51,10 @@ class DiscordClient7566 extends Client7566 {
             this.currentChannel.send(txt);
         }
     }
+
+    setDescription(txt) {
+        this.client.user.setActivity(txt);
+    }
 }
 
 module.exports = DiscordClient7566;

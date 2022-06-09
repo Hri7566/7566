@@ -36,8 +36,8 @@ class InventoryUtil {
 
     static addItem(inventory, item, amount) {
         if (!inventory) return;
-        let item = this.getItem(inventory, item);
-        let realItem = InventoryItem.getRealItem(item.name);
+        let i_item = this.getItem(inventory, item);
+        let realItem = InventoryItem.getRealItem(i_item.name);
         if (typeof amount !== 'number') amount = 1;
         if (inventory.items[item]) inventory.items[item].amount += amount;
     }

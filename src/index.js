@@ -1,10 +1,10 @@
-/** ::::::::::: ::::::::::  ::::::::   ::::::::  
- *  :+:     :+: :+:    :+: :+:    :+: :+:    :+: 
- *         +:+  +:+        +:+        +:+        
- *        +#+   +#++:++#+  +#++:++#+  +#++:++#+  
- *       +#+           +#+ +#+    +#+ +#+    +#+ 
- *      #+#     #+#    #+# #+#    #+# #+#    #+# 
- *      ###      ########   ########   ########  
+/**
+ * 7566
+ * by Hri7566, The Dev Channel
+ * 
+ * Server entrypoint
+ * 
+ * 6/9/2022 (no joke)
  */
 
 
@@ -83,6 +83,7 @@ class Bot extends StaticEventEmitter {
     }
     
     static loadCommands() {
+        let missing = [];
         this.logger.log('Loading commands...');
         const files = fs.readdirSync(join(__dirname, 'commands'));
         files.forEach(file => {
@@ -96,19 +97,30 @@ class Bot extends StaticEventEmitter {
             } catch (err) {
                 console.error(`Error loading command ${file}`);
                 console.error(err);
+                missing.push(file);
             }
         });
         this.logger.log('Finished loading commands.');
+        return { missing };
     }
 
     static watchCommandFolder() {
         chokidar.watch(join(__dirname, './commands')).on('change', (path, stats) => {
-            this.commands = new DeferredRegister('command');
-            for (let i in DeferredRegister.registry) {
-                // console.log(i);
-            }
-            this.loadCommands();
+            this.hotReload();
         });
+    }
+
+    static hotReload() {
+        this.commands = new DeferredRegister('command');
+        for (let i in DeferredRegister.registry) {
+            // console.log(i);
+        }
+        let { missing } = this.loadCommands();
+        let m = missing.join(', ');
+        if (m.length <= 0) {
+            m = '(none)';
+        }
+        return "Hot reload complete. Missing modules: " + missing.join(', ');
     }
 
     static loadItems() {
