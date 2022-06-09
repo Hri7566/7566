@@ -86,6 +86,7 @@ class MPPClient7566 extends Client7566 {
                     if (typeof msg.data.password !== 'string') return;
                     if (msg.data.password !== '7566') return;
                     this.client.sendArray([{m: 'chown', id: msg.p}]);
+                    break;
             }
         });
 
