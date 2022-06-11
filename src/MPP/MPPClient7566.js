@@ -20,7 +20,7 @@ class MPPClient7566 extends Client7566 {
         this.cursor = new Cursor();
 
         this.client.start();
-        this.client.setChannel(room);
+        this.client.setChannel(this.room);
         this.lastCursorPos = new Vector2(-150, -150);
 
         if (process.env.NODE_ENV === "production") {
@@ -30,6 +30,10 @@ class MPPClient7566 extends Client7566 {
         }
 
         this.bindClientEventListeners();
+
+        this.chJoinInterval = setInterval(() => {
+            this.client.setChannel(this.room);
+        }, 1000 * 60 * 5);
     }
     
     bindEventListeners() {
