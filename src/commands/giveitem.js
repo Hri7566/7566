@@ -8,7 +8,7 @@ module.exports = new Command('giveitem', ['giveitem'], `%PREFIX%giveitem <id> <i
     if (!inventory) return 'Could not find inventory.';
 
     let item = InventoryItem.getRealItem(msg.args[2]);
-    console.log(item);
+    // console.log(item);
     if (item == null || !item) return 'Could not find item.';
 
     InventoryUtil.addItem(inventory, item, 1);

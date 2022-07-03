@@ -27,7 +27,7 @@ class Bridge extends EventEmitter {
             for (let c of this.clients) {
                 // if (!c) return;
                 if (c.id == cl.id) continue;
-                console.log(a)
+                // console.log(a)
                 c.sendChat(a);
             }
         });
