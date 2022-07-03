@@ -1,4 +1,5 @@
 const Command = require("../Command");
+const DeferredRegister = require("../DeferredRegister");
 
 module.exports = new Command('js', ['js'], `%PREFIX%js (eval string)`, `Evaluate JavaScript during runtime.`, async (msg, cl, bot) => {
     let out = `✔️ Console: `;
