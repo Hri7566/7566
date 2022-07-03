@@ -24,9 +24,11 @@ class MPPClient7566 extends Client7566 {
         this.lastCursorPos = new Vector2(-150, -150);
 
         if (process.env.NODE_ENV === "production") {
-            this.u = { name: "7566", color: "#8d3f50" };
+            let [prefix] = Bot.prefixes.values();
+            this.u = { name: `7566 [${prefix.accessor}help]`, color: "#8d3f50" };
         } else {
-            this.u = { name: `7566 [non-prod v${pkg.version}]`, color: "#8d3f50" };
+            let [prefix] = Bot.prefixes.values();
+            this.u = { name: `7566 [${prefix.accessor}help] (non-prod)`, color: "#8d3f50" };
         }
 
         this.bindClientEventListeners();
