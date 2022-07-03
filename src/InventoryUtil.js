@@ -21,7 +21,7 @@ class InventoryUtil {
     static getItem(inventory, item) {
         if (!inventory) return null;
         if (!inventory.items) return null;
-        if (!inventory.items[item]) return null;
+        if (!inventory.items[item]) return { name: item.id, amount: 0 };
         return inventory.items[item];
     }
 

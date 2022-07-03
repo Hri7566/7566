@@ -40,13 +40,34 @@ class Item extends RegisterObject {
 }
 
 class FoodItem extends Item {
-    constructor () {
+    constructor() {
         super();
         this.edible = true;
     }
 }
 
+class EBItem extends Item {
+    constructor() {
+        super();
+        this.errorRate;
+        this.offense;
+    }
+
+    setOffense(o) {
+        this.offense = o;
+    }
+
+    setErrorRate(e) {
+        this.errorRate = e;
+    }
+}
+
 class InventoryItem {
+    /**
+     * Get the registered item object from an inventory item's name
+     * @param {str} name Name of item
+     * @returns Item
+     */
     static getRealItem(name) {
         return DeferredRegister.registry.get(`item:${name}`);
     }
@@ -59,6 +80,10 @@ class InventoryItem {
                 }
             }
         }
+    }
+
+    static itemToInventoryItem(item, amount) {
+        return new InventoryItem(item.id, amount || 1);
     }
 
     constructor(name, amount) {
