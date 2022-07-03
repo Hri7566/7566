@@ -49,10 +49,10 @@ const PORT = process.env.PORT || 7566;
  */
 
 class Bot extends StaticEventEmitter {
-    static clients = new DeferredRegister('client');
     static commands = new DeferredRegister('command');
     static items = new DeferredRegister('item');
     static prefixes = require('./prefixes');
+    static clients = new DeferredRegister('client');
     static started = false;
 
     static logger = new Logger("Bot");
@@ -63,6 +63,7 @@ class Bot extends StaticEventEmitter {
         this.bindEventListeners();
         this.loadCommands();
         this.watchCommandFolder();
+        this.watchPrefixFile();
         this.loadItems();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
@@ -110,17 +111,32 @@ class Bot extends StaticEventEmitter {
         });
     }
 
+    static watchPrefixFile() {
+        chokidar.watch(join(__dirname, './prefixes.js')).on('change', (path, stats) => {
+            this.hotReload();
+        });
+    }
+
     static hotReload() {
+        this.logger.log("Starting hot reload. This may take a few seconds...");
         this.commands = new DeferredRegister('command');
-        for (let i in DeferredRegister.registry) {
-            // console.log(i);
-        }
+        
         let { missing } = this.loadCommands();
         let m = missing.join(', ');
-        if (m.length <= 0) {
+        if (missing <= 0) {
             m = '(none)';
         }
-        return "Hot reload complete. Missing modules: " + missing.join(', ');
+
+        this.items = new DeferredRegister('item');
+        this.loadItems();
+
+        this.prefixes = require('./prefixes');
+
+        if (m !== '(none)') {
+            this.logger.warn("Hot reload incomplete. Missing modules: " + m);
+        } else {
+            this.logger.log("Hot reload completed successfully.");
+        }
     }
 
     static loadItems() {
@@ -200,4 +216,6 @@ class Bot extends StaticEventEmitter {
  * Module-level exports
  */
 
-module.exports = Bot;
+module.exports = {
+    Bot
+};
