@@ -1,3 +1,4 @@
+const { EventEmitter } = require('events');
 const Vector2 = require("../Geometry/Vector2");
 
 const SCREEN_BOUNDARIES = {
@@ -7,8 +8,9 @@ const SCREEN_BOUNDARIES = {
     right: 100
 }
 
-class Cursor {
+class Cursor extends EventEmitter {
     constructor () {
+        super();
         this.position = new Vector2(SCREEN_BOUNDARIES.right/2,SCREEN_BOUNDARIES.bottom/2);
         this.velocity = new Vector2(0, 0);
         this.acceleration = new Vector2(0, 0);
@@ -253,6 +255,10 @@ class Cursor {
         });
         
         this.patterns = patterns;
+
+        this.on('change_pattern', pat => {
+            this.patterns.get(pat)();
+        });
     }
 }
 
