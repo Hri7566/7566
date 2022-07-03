@@ -54,7 +54,7 @@ by Hri7566
 
 require('dotenv').config();
 
-globalThis.Bot = require('./src');
+globalThis.Bot = require('./src').Bot;
 const roomList = require('./roomList.json');
 
 Bot.start(roomList);
