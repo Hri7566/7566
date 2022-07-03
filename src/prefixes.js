@@ -4,7 +4,7 @@ let prefixes = new Map();
 
 if (process.env.NODE_ENV === "production") {
     // prefixes.set('asterisk', new Prefix('asterisk', '*'));
-    prefixes.set('dot', new Prefix('asterisk', '*'));
+    prefixes.set('asterisk', new Prefix('asterisk', '*'));
 } else {
     prefixes.set('asterisk', new Prefix('asterisk', '**'));
     // prefixes.set('caret', new Prefix('caret', '^'));
