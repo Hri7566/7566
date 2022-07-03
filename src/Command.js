@@ -1,7 +1,7 @@
 const RegisterObject = require('./RegisterObject')
 
 class Command extends RegisterObject {
-    constructor (id, accessors, usage, desc, func, args, rank, hidden) {
+    constructor (id, accessors, usage, desc, func, args, rank, hidden, context) {
         super();
         this.id = id;
         this.accessors = typeof(accessors) == 'object' ? accessors : [accessors];
@@ -11,6 +11,7 @@ class Command extends RegisterObject {
         this.args = args || 0;
         this.rank = rank || 0;
         this.hidden = hidden || false;
+        this.context = context ? typeof context == 'object' ? context : [context] : ['all'];
     }
 
     static getUsage(str, prefix) {

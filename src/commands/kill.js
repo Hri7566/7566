@@ -65,4 +65,4 @@ module.exports = new Command('kill', ['kill'], `%PREFIX%kill <user>`, undefined,
     } else {
         return `${msg.p.name} kills ${p.name} with ${objects[Math.floor(Math.random() * objects.length)]}.`;
     }
-}, 0, 0, true);
+}, 0, 0, true, 'mpp');

@@ -29,13 +29,13 @@ module.exports = new Command('help', ['help', 'cmds', 'h', 'cmd'], `%PREFIX%help
     } else {
         out = ``;
         let cmd;
-        DeferredRegister.grab(val => {
+        DeferredRegister.grab("command", val => {
             val[1].accessors.forEach(a => {
                 if (msg.argcat.startsWith(a)) {
                     cmd = val[1];
                 }
             });
-        }, "command");
+        });
         if (cmd) {
             out += `${cmd.desc}`;
             out += " Usage: " + Command.getUsage(cmd.usage, msg.usedPrefix.accessor);
