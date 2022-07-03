@@ -20,16 +20,22 @@ class MPPClient7566 extends Client7566 {
         this.cursor = new Cursor();
 
         this.client.start();
-        this.client.setChannel(room);
+        this.client.setChannel(this.room);
         this.lastCursorPos = new Vector2(-150, -150);
 
         if (process.env.NODE_ENV === "production") {
-            this.u = { name: "7566", color: "#8d3f50" };
+            let [prefix] = Bot.prefixes.values();
+            this.u = { name: `7566 [${prefix.accessor}help]`, color: "#8d3f50" };
         } else {
-            this.u = { name: `7566 [non-prod v${pkg.version}]`, color: "#8d3f50" };
+            let [prefix] = Bot.prefixes.values();
+            this.u = { name: `7566 [${prefix.accessor}help] (non-prod)`, color: "#8d3f50" };
         }
 
         this.bindClientEventListeners();
+
+        this.chJoinInterval = setInterval(() => {
+            this.client.setChannel(this.room);
+        }, 1000 * 60 * 5);
     }
     
     bindEventListeners() {
@@ -86,6 +92,7 @@ class MPPClient7566 extends Client7566 {
                     if (typeof msg.data.password !== 'string') return;
                     if (msg.data.password !== '7566') return;
                     this.client.sendArray([{m: 'chown', id: msg.p}]);
+                    break;
             }
         });
 
@@ -112,9 +119,11 @@ class MPPClient7566 extends Client7566 {
 
     startCursorInterval() {
         if (process.env.NODE_ENV === "production") {
-            this.cursor.defaultFigureC();
+            // this.cursor.defaultFigureC();
+            this.cursor.patterns.get('figurec')();
         } else {
-            this.cursor.defaultFigure();
+            // this.cursor.defaultFigure();
+            this.cursor.patterns.get('figure')();
         }
 
         if (this.cursorInterval) clearInterval(this.cursorInterval);
@@ -140,19 +149,47 @@ class MPPClient7566 extends Client7566 {
         //     if (count > 3) count = 0;
         // }, 30000);
 
+        this.cursorUpdateInterval = setInterval(() => {
+            if (!this.cursor.follow) {
+                this.cursor.func();
+            } else {
+                let p = this.getPart(this.cursor.follow);
+                if (p) {
+                    this.cursor.position.x = p.x;
+                    this.cursor.position.y = p.y;
+                } else {
+                    // this.cursor.position.x = 100;
+                    // this.cursor.position.y = 200;
+                    this.cursor.func();
+                }
+            }
+        }, 1000 / 60);
+
         this.cursorInterval = setInterval(() => {
-            this.cursor.func();
             // this is entirely borked ;-;
             // if (this.cursor.position.x !== this.lastCursorPos.x && this.cursor.position.y !== this.lastCursorPos.y) {
                 this.emit('cursor', this.cursor.position.x, this.cursor.position.y);
                 // this.lastCursorPos = this.cursor.position;
             // }
-        }, 1000/25);
+        }, 1000 / 20);
     }
 
     sendChat(txt) {
         super.sendChat(txt);
         this.client.sendArray([new ClientChatMessage(txt)]);
+    }
+
+    getPart(str) {
+        str = str.toLowerCase();
+        let p;
+        for (const u of Object.values(this.client.ppl)) {
+            if (u.name.toLowerCase().includes(str) || u._id.toLowerCase().includes(str) || u.id.toLowerCase().includes(str)) {
+                p = u;
+                break;
+            }
+        }
+
+        return p;
     }
 }
 

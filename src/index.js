@@ -1,10 +1,10 @@
-/** ::::::::::: ::::::::::  ::::::::   ::::::::  
- *  :+:     :+: :+:    :+: :+:    :+: :+:    :+: 
- *         +:+  +:+        +:+        +:+        
- *        +#+   +#++:++#+  +#++:++#+  +#++:++#+  
- *       +#+           +#+ +#+    +#+ +#+    +#+ 
- *      #+#     #+#    #+# #+#    #+# #+#    #+# 
- *      ###      ########   ########   ########  
+/**
+ * 7566
+ * by Hri7566, The Dev Channel
+ * 
+ * Server entrypoint
+ * 
+ * 6/9/2022 (no joke)
  */
 
 
@@ -49,9 +49,10 @@ const PORT = process.env.PORT || 7566;
  */
 
 class Bot extends StaticEventEmitter {
-    static clients = new DeferredRegister('client');
     static commands = new DeferredRegister('command');
+    static items = new DeferredRegister('item');
     static prefixes = require('./prefixes');
+    static clients = new DeferredRegister('client');
     static started = false;
 
     static logger = new Logger("Bot");
@@ -62,6 +63,8 @@ class Bot extends StaticEventEmitter {
         this.bindEventListeners();
         this.loadCommands();
         this.watchCommandFolder();
+        this.watchPrefixFile();
+        this.loadItems();
         if (MPP_ENABLED) this.startMPPClients(roomList);
         if (DISCORD_ENABLED) this.startDiscordClient(process.env.DISCORD_TOKEN);
         // if (MPP_SERVER_ENABLED) mppServer.Server.start();
@@ -81,6 +84,7 @@ class Bot extends StaticEventEmitter {
     }
     
     static loadCommands() {
+        let missing = [];
         this.logger.log('Loading commands...');
         const files = fs.readdirSync(join(__dirname, 'commands'));
         files.forEach(file => {
@@ -92,21 +96,63 @@ class Bot extends StaticEventEmitter {
                 // console.log('added command ' + cmd.id);
                 // console.log(cmd.func.toString());
             } catch (err) {
-                console.error(`Error loading command ${file}`);
-                console.error(err);
+                this.logger.error(`Error loading command ${file} - Stack trace:`);
+                this.logger.error(err);
+                missing.push(file);
             }
         });
         this.logger.log('Finished loading commands.');
+        return { missing };
     }
 
     static watchCommandFolder() {
         chokidar.watch(join(__dirname, './commands')).on('change', (path, stats) => {
-            this.commands = new DeferredRegister('command');
-            for (let i in DeferredRegister.registry) {
-                // console.log(i);
-            }
-            this.loadCommands();
+            this.hotReload();
         });
+    }
+
+    static watchPrefixFile() {
+        chokidar.watch(join(__dirname, './prefixes.js')).on('change', (path, stats) => {
+            this.hotReload();
+        });
+    }
+
+    static hotReload() {
+        this.logger.log("Starting hot reload. This may take a few seconds...");
+        this.commands = new DeferredRegister('command');
+        
+        let { missing } = this.loadCommands();
+        let m = missing.join(', ');
+        if (missing <= 0) {
+            m = '(none)';
+        }
+
+        this.items = new DeferredRegister('item');
+        this.loadItems();
+
+        this.prefixes = require('./prefixes');
+
+        if (m !== '(none)') {
+            this.logger.warn("Hot reload incomplete. Missing modules: " + m);
+        } else {
+            this.logger.log("Hot reload completed successfully.");
+        }
+    }
+
+    static loadItems() {
+        this.logger.log('Loading items...');
+        const files = fs.readdirSync(join(__dirname, 'items'));
+        files.forEach(file => {
+            try {
+                delete require.cache[join(__dirname, './items', file)];
+                let item = require(join(__dirname, './items', file));
+                this.items.register(item.id, item);
+            } catch (err) {
+                console.error(`Error loading item ${file}`);
+                console.error(err);
+            }
+        });
+        this.logger.log('Finished loading items.');
     }
 
     static bindEventListeners() {
@@ -133,7 +179,7 @@ class Bot extends StaticEventEmitter {
         msg = new BotIncomingChatMessage(msg);
         if (!msg.hasOwnProperty('usedPrefix')) return;
 
-        DeferredRegister.grab(async val => {
+        DeferredRegister.grab("command", async val => {
             let cmd = val[1];
             if (!cmd) return;
 
@@ -141,9 +187,21 @@ class Bot extends StaticEventEmitter {
             for (let a of cmd.accessors) {
                 if (msg.cmd == a) {
                     canContinue = true;
+                    break;
                 }
             }
             if (!canContinue) return;
+
+            let currentContext = client.context;
+            // if (cmd.context !== 'all') {
+            //     if (currentContext !== cmd.context) {
+            //         return 'This command does not work here.';
+            //     }
+            // }
+
+            if (!cmd.context.includes('all')) {
+                if (!cmd.context.includes(currentContext)) return `This command does not work here. Try again on ${cmd.context.join('/')}.`;
+            }
 
             let user = await Database.createUser(msg.p);
             if (user.rank.id < cmd.rank) {
@@ -162,7 +220,7 @@ class Bot extends StaticEventEmitter {
                 client.sendChat(`An error has occurred. ${errormsgs[Math.floor(Math.random() * errormsgs.length)]}`);
                 console.error(err);
             }
-        }, "command");
+        });
     }
 }
 
@@ -170,4 +228,6 @@ class Bot extends StaticEventEmitter {
  * Module-level exports
  */
 
-module.exports = Bot;
+module.exports = {
+    Bot
+};
