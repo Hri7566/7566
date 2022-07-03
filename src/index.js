@@ -96,8 +96,8 @@ class Bot extends StaticEventEmitter {
                 // console.log('added command ' + cmd.id);
                 // console.log(cmd.func.toString());
             } catch (err) {
-                console.error(`Error loading command ${file}`);
-                console.error(err);
+                this.logger.error(`Error loading command ${file} - Stack trace:`);
+                this.logger.error(err);
                 missing.push(file);
             }
         });
