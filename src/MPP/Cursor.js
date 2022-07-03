@@ -19,6 +19,8 @@ class Cursor extends EventEmitter {
         this.deltaTime = 0;
         this.oldTime = Date.now();
 
+        this.follow;
+
         this.old = {
             time: 0,
             deltaTime: 0,
@@ -128,7 +130,7 @@ class Cursor extends EventEmitter {
                 this.time = Date.now();
                 this.deltaTime = (this.time - this.old.time)/1000;
 
-                angle += 3 * this.deltaTime;
+                angle += 1 * this.deltaTime;
 
                 this.position.x = ((Math.floor(Math.sin(2 * angle) * 100)/100) * width) + 50
                 // console.log(angle + ": " + this.position.x);
@@ -165,7 +167,7 @@ class Cursor extends EventEmitter {
                 this.time = Date.now();
                 this.deltaTime = (this.time - this.old.time)/1000;
 
-                angle += 3 * this.deltaTime;
+                angle += 0.25 * this.deltaTime;
 
                 this.position.x = ((Math.floor(Math.sin(8 * angle) * 100)/100) * width) + x;
                 // console.log(angle + ": " + this.position.x);
@@ -207,7 +209,7 @@ class Cursor extends EventEmitter {
                 this.time = Date.now();
                 this.deltaTime = (this.time - this.old.time)/1000;
 
-                angle += 1 * this.deltaTime;
+                angle += 0.25 * this.deltaTime;
 
                 this.position.x = ((Math.floor(Math.cos(2 * angle) * 100)/100) * width) + 50
                 // console.log(angle + ": " + this.position.x);
@@ -257,7 +259,10 @@ class Cursor extends EventEmitter {
         this.patterns = patterns;
 
         this.on('change_pattern', pat => {
-            this.patterns.get(pat)();
+            let func = this.patterns.get(pat);
+            if (func) {
+                this.patterns.get(pat)();
+            }
         });
     }
 }

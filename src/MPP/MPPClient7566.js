@@ -148,7 +148,19 @@ class MPPClient7566 extends Client7566 {
         // }, 30000);
 
         this.cursorUpdateInterval = setInterval(() => {
-            this.cursor.func();
+            if (!this.cursor.follow) {
+                this.cursor.func();
+            } else {
+                let p = this.getPart(this.cursor.follow);
+                if (p) {
+                    this.cursor.position.x = p.x;
+                    this.cursor.position.y = p.y;
+                } else {
+                    // this.cursor.position.x = 100;
+                    // this.cursor.position.y = 200;
+                    this.cursor.func();
+                }
+            }
         }, 1000 / 60);
 
         this.cursorInterval = setInterval(() => {
@@ -163,6 +175,19 @@ class MPPClient7566 extends Client7566 {
     sendChat(txt) {
         super.sendChat(txt);
         this.client.sendArray([new ClientChatMessage(txt)]);
+    }
+
+    getPart(str) {
+        str = str.toLowerCase();
+        let p;
+        for (const u of Object.values(this.client.ppl)) {
+            if (u.name.toLowerCase().includes(str) || u._id.toLowerCase().includes(str) || u.id.toLowerCase().includes(str)) {
+                p = u;
+                break;
+            }
+        }
+
+        return p;
     }
 }
 
