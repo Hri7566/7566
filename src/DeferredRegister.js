@@ -31,9 +31,9 @@ class DeferredRegister extends EventEmitter {
         return this.map.forEach(cb, thisArg);
     }
 
-    static grab(cb, type) {
+    static grab(type, cb) {
         for (let val of this.registry) {
-            if (type) {
+            if (type !== 'all') {
                 if (val[0].startsWith(type)) {
                     cb(val);
                 }

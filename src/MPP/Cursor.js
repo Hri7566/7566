@@ -21,6 +21,8 @@ class Cursor extends EventEmitter {
 
         this.follow;
 
+        this.currentPattern;
+
         this.old = {
             time: 0,
             deltaTime: 0,
@@ -261,7 +263,8 @@ class Cursor extends EventEmitter {
         this.on('change_pattern', pat => {
             let func = this.patterns.get(pat);
             if (func) {
-                this.patterns.get(pat)();
+                func();
+                this.currentPattern = pat;
             }
         });
     }

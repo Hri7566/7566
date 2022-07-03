@@ -17,4 +17,4 @@ module.exports = new Command('follow', ['follow'], `%PREFIX%follow <id>`, `Curso
     } else {
         return `Could not find user. Are they in this room? Try their ID instead.`;
     }
-}, 1, 0, true);
+}, 1, 0, true, 'mpp');

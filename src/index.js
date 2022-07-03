@@ -179,7 +179,7 @@ class Bot extends StaticEventEmitter {
         msg = new BotIncomingChatMessage(msg);
         if (!msg.hasOwnProperty('usedPrefix')) return;
 
-        DeferredRegister.grab(async val => {
+        DeferredRegister.grab("command", async val => {
             let cmd = val[1];
             if (!cmd) return;
 
@@ -187,9 +187,21 @@ class Bot extends StaticEventEmitter {
             for (let a of cmd.accessors) {
                 if (msg.cmd == a) {
                     canContinue = true;
+                    break;
                 }
             }
             if (!canContinue) return;
+
+            let currentContext = client.context;
+            // if (cmd.context !== 'all') {
+            //     if (currentContext !== cmd.context) {
+            //         return 'This command does not work here.';
+            //     }
+            // }
+
+            if (!cmd.context.includes('all')) {
+                if (!cmd.context.includes(currentContext)) return `This command does not work here. Try again on ${cmd.context.join('/')}.`;
+            }
 
             let user = await Database.createUser(msg.p);
             if (user.rank.id < cmd.rank) {
@@ -208,7 +220,7 @@ class Bot extends StaticEventEmitter {
                 client.sendChat(`An error has occurred. ${errormsgs[Math.floor(Math.random() * errormsgs.length)]}`);
                 console.error(err);
             }
-        }, "command");
+        });
     }
 }
 
