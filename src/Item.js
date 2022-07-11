@@ -55,10 +55,12 @@ class EBItem extends Item {
 
     setOffense(o) {
         this.offense = o;
+        return this;
     }
 
     setErrorRate(e) {
         this.errorRate = e;
+        return this;
     }
 }
 
