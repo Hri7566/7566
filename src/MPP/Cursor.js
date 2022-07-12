@@ -257,6 +257,14 @@ class Cursor extends EventEmitter {
         this.on('change_pattern', pat => {
             let func = this.patterns.get(pat);
             if (func) {
+                this.position = new Vector2(SCREEN_BOUNDARIES.right/2,SCREEN_BOUNDARIES.bottom/2);
+                this.velocity = new Vector2(0, 0);
+                this.acceleration = new Vector2(0, 0);
+
+                this.time = Date.now();
+                this.deltaTime = 0;
+                this.oldTime = Date.now();
+                
                 func();
                 this.currentPattern = pat;
             }
