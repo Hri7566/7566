@@ -6,8 +6,16 @@ let outcomes = [
 ];
 
 let specialOutcomes = [
-    "The coin landed directly on its side!"
-]
+    "The coin landed directly on its side!",
+    "The coin rolled away!",
+    "The coin didn't come back down!",
+    "You flipped a seashell instead! It landed hole-side-down.",
+    "The coin was made of chocolate and the sun melted it!",
+    "There are no coins to flip, sorry.",
+    "Anonygold took all the coins away, so we can't flip one right now.",
+    "Grant ate all the coins.",
+    "The coin landed on heads. WAIT! The coin flipped back over one more time! IT'S HEADS ON BOTH SIDES!!!"
+];
 
 module.exports = new Command('coinflip', ['coinflip', 'flip', 'flipcoin', 'coin'], `%PREFIX%coinflip`, `Flip a coin.`, (msg, cl, bot) => {
     let r = Math.random();

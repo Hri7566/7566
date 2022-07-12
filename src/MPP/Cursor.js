@@ -52,7 +52,7 @@ class Cursor extends EventEmitter {
                     this.velocity.x = -this.velocity.x;
                 }
 
-                this.old.time = Date.now();
+                this.old.time = this.time;
             }
         });
 
@@ -82,7 +82,7 @@ class Cursor extends EventEmitter {
                 }
 
                 this.old.position.x = this.position.x;
-                this.old.time = Date.now();
+                this.old.time = this.time;
             }
         });
 
@@ -113,7 +113,7 @@ class Cursor extends EventEmitter {
                 }
 
                 this.old.position.x = this.position.x;
-                this.old.time = Date.now();
+                this.old.time = this.time;
             }
         });
 
@@ -144,8 +144,7 @@ class Cursor extends EventEmitter {
                 }
 
                 this.old.position.x = this.position.x;
-                this.old.time = Date.now();
-
+                this.old.time = this.time;
             }
         });
 
@@ -192,15 +191,13 @@ class Cursor extends EventEmitter {
                 }
 
                 this.old.position.x = this.position.x;
-                this.old.time = Date.now();
+                this.old.time = this.time;
             }
         });
 
         patterns.set("rave", () => {
             this.position = new Vector2(SCREEN_BOUNDARIES.right/2, SCREEN_BOUNDARIES.bottom/2);
             this.velocity = new Vector2(1, 2);
-
-            let angle = 0;
 
             let width = 10;
             let height = 10;
@@ -209,21 +206,18 @@ class Cursor extends EventEmitter {
 
             this.func = () => {
                 this.time = Date.now();
-                this.deltaTime = (this.time - this.old.time)/1000;
+                this.deltaTime = this.oldTime - this.time;
 
-                angle += 0.25 * this.deltaTime;
+                this.acceleration.x = this.position.x - this.old.position.x;
+                this.acceleration.y = this.position.y - this.old.position.y;
+                
+                this.velocity.x += this.acceleration.x;
+                this.velocity.y += this.acceleration.y;
 
-                this.position.x = ((Math.floor(Math.cos(2 * angle) * 100)/100) * width) + 50
-                // console.log(angle + ": " + this.position.x);
+                this.position.x += this.velocity.x;
+                this.position.y += this.velocity.y;
 
-                this.position.y = ((Math.floor(Math.tan(3 * angle) * 100)/100) * width) + 50
-
-                if (this.position.y > SCREEN_BOUNDARIES.bottom) {
-                    this.position.y = SCREEN_BOUNDARIES.top;
-                }
-
-                this.old.position.x = this.position.x;
-                this.old.time = Date.now();
+                this.old.time = this.time;
             }
         });
 

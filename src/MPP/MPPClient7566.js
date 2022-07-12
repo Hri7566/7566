@@ -6,6 +6,7 @@ const { ClientChatMessage, ServerChatMessage } = require('../Message');
 const Logger = require('../Logger');
 const pkg = require('../../package.json');
 const { Database } = require('../Database');
+const config = require('../config');
 
 const NODE_ENV = process.env.NODE_ENV || 'production';
 
@@ -120,7 +121,7 @@ class MPPClient7566 extends Client7566 {
     startCursorInterval() {
         if (process.env.NODE_ENV === "production") {
             // this.cursor.defaultFigureC();
-            this.cursor.patterns.get('figurec')();
+            this.cursor.patterns.get(config.defaults.cursor || 'figurec')();
         } else {
             // this.cursor.defaultFigure();
             this.cursor.patterns.get('figure')();

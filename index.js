@@ -39,7 +39,7 @@ by Hri7566
 
 * Non-Honorable Individuals
  - jacored - Worst person on the planet, Owner of MPP
- - 123123 - Second worst person on the planet, somehow got moderator for existing
+ - 123123 - Second worst person on the planet, but willing to speak about issues
 
 * Emotional Support Team
  - No.

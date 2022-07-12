@@ -19,10 +19,10 @@ class Bridge extends EventEmitter {
 
         Bridge.bridges.register(this.id, this);
 
-        this.bind();
+        this.bindEventListeners();
     }
 
-    bind() {
+    bindEventListeners() {
         this.on('chat', (a, cl) => {
             for (let c of this.clients) {
                 // if (!c) return;
