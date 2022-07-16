@@ -47,6 +47,10 @@ class Client extends EventEmitter {
         return typeof WebSocket !== 'undefined';
     }
 
+    isConnected() {
+        return this.ws.readyState == WebSocket.OPEN;
+    }
+
     start() {
         if (this.started) return;
         this.started = true;
@@ -82,10 +86,12 @@ class Client extends EventEmitter {
 
     stop() {
         if (!this.started) return;
+
         if (this.ws) {
             this.send([{m: 'bye'}]);
             this.ws.close();
         }
+
         this.started = false;
     }
 
