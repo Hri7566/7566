@@ -13,9 +13,14 @@ class Client7566 extends RegisterEventEmitter {
 
     bindEventListeners() {
         this.on("receive", async (msg, cl) => {
+            this.emit("update username", msg, cl);
             // await Database.createUser(msg.p);
             msg.user = await Database.getUser(msg.p._id);
             Bot.emit("receive", msg, cl);
+        });
+
+        this.on("update username", async (msg, cl) => {
+            Bot.emit("update username", msg, cl);
         });
 
         // this.on("cursor", (x, y) => {

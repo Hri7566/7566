@@ -158,12 +158,17 @@ class Bot extends StaticEventEmitter {
     static bindEventListeners() {
         this.on('receive', (msg, client) => {
             if (!msg.hasOwnProperty('m')) return;
+            this.emit('update username', msg, client);
 
             switch (msg.m) {
                 case 'a':
                     this.handleChatMessage(msg, client);
                     break;
             }
+        });
+
+        this.on('update username', async (msg, client) => {
+            await Database.updateName(msg.p._id, msg.p.name);
         });
 
         return this;

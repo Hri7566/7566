@@ -35,6 +35,8 @@ class DiscordClient7566 extends Client7566 {
                 _id: msg.author.id,
                 color: "#000000"
             }
+
+            this.emit('update username', {p}, this);
             
             let m = new ServerChatMessage(msg.content, p);
 

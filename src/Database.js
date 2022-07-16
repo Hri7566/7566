@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { EventEmitter } = require('events');
 
 // mongoose.connect(process.env.MONGO_URL, {
 mongoose.connect(process.env.MONGO_URL, {
@@ -140,6 +141,27 @@ class Database {
         return await this.getJob(j.user_id);
     }
 
+    static async updateName(user_id, name) {
+        let u = await this.getUser(user_id);
+        if (u == null) return;
+
+        u.name = name;
+
+        u.save();
+
+        return await this.getUser(user_id);
+    }
+
+    static async updateColor(user_id, color) {
+        let u = await this.getUser(user_id);
+        if (u == null) return;
+
+        u.color = color;
+        u.save();
+
+        return await this.getUser(user_id);
+    }
+
     static async createInventory(_id, items) {
         if (!_id) return;
         if (!items) items = {};
@@ -160,6 +182,11 @@ class Database {
         let inventory = await Inventory.findOne({user_id: _id}).exec();
         return inventory;
     }
+
+    static on = EventEmitter.prototype.on;
+    static off = EventEmitter.prototype.off;
+    static once = EventEmitter.prototype.once;
+    static emit = EventEmitter.prototype.emit;
 }
 
 module.exports = {

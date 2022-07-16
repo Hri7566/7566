@@ -3,16 +3,13 @@ const itemPriceList = require('./itemPriceList');
 const DeferredRegister = require('./DeferredRegister');
 
 class Item extends RegisterObject {
-    static getPriceListing(item) {
-        return itemPriceList[item];
-    }
-
     constructor() {
         super();
         this.id = "<missing item>";
         this.stats = {};
         this.maxStack = 99;
         this.description = "No description.";
+        this.sellable = true;
     }
 
     setDisplayName (name) {
@@ -29,12 +26,21 @@ class Item extends RegisterObject {
         return `${this.id} is not usable.`;
     }
 
-    eat() {
-        return `${this.id} is not edible.`;
+    eat(msg, cl, bot) {
+        if (!this.edible) {
+            return `${this.id} is not edible.`;
+        } else {
+            return `${msg.p.name} ate ${this.id}`;
+        }
     }
 
     onUse(func) {
         this.use = func;
+        return this;
+    }
+
+    makeUnsellable() {
+        this.sellable = false;
         return this;
     }
 }
@@ -94,8 +100,17 @@ class InventoryItem {
     }
 }
 
+class Shop {
+    static itemPriceList = itemPriceList;
+
+    static getPriceListing(item) {
+        return this.itemPriceList[item];
+    }
+}
+
 module.exports = {
     Item,
     FoodItem,
-    InventoryItem
+    InventoryItem,
+    Shop
 }

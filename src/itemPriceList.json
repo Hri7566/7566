@@ -2,5 +2,8 @@
     "stick": {
         "item_name": "stick",
         "price": 1
+    },
+    "testitem": {
+        "item_name": "TestItem"
     }
 }

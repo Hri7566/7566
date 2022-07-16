@@ -105,7 +105,11 @@ class MPPClient7566 extends Client7566 {
 
         this.client.on('participant added', async p => {
             let user = await Database.createUser(p);
-        })
+        });
+
+        this.client.on('participant update', async p => {
+            this.emit('update username', {p}, this);
+        });
     }
 
     userset(set) {
