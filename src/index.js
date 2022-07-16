@@ -176,6 +176,10 @@ class Bot extends StaticEventEmitter {
             await Database.updateColor(msg.p._id, msg.p.color);
         });
 
+        this.on('hot reload', async () => {
+            this.hotReload();
+        });
+
         return this;
     }
 
