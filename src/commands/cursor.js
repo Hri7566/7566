@@ -12,4 +12,4 @@ module.exports = new Command('cursor', ['cursor'], `%PREFIX%cursor <pattern>`, u
         }
         return patterns.substring(0, patterns.length - 2).trim();
     }
-}, 0, 0, true, 'mpp');
+}, 0, 0, false, 'mpp');

@@ -12,17 +12,20 @@ module.exports = new Command('help', ['help', 'cmds', 'h', 'cmd'], `%PREFIX%help
                 let cmd = val[1];
                 if (!cmd) continue;
                 if (cmd.hidden) continue;
+                if (!cmd.context.includes(cl.context) && !cmd.context.includes('all')) continue;
                 out += ` ${msg.usedPrefix.accessor}${cmd.accessors[0]} | `;
             }
             out = out.substring(0, out.length - 2).trim();
         } else if (cl.context == 'discord') {
             out = new MessageEmbed();
-            out.setTitle('Help');
+            out.setTitle('Commands');
+            out.setColor('#8d3f50');
             for (let val of DeferredRegister.registry) {
                 if (!val[0].startsWith('command')) continue;
                 let cmd = val[1];
                 if (!cmd) continue;
                 if (cmd.hidden) continue;
+                if (!cmd.context.includes(cl.context) && !cmd.context.includes('all')) continue;
                 out.addField(`${msg.usedPrefix.accessor}${cmd.accessors[0]}`, Command.getUsage(cmd.usage, msg.usedPrefix.accessor));
             }
         }

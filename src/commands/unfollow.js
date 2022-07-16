@@ -9,4 +9,4 @@ module.exports = new Command('unfollow', ['unfollow'], `%PREFIX%unfollow`, `Curs
     } else {
         return "Not following anybody.";
     }
-}, 0, 0, true);
+}, 0, 0, false);

@@ -159,6 +159,7 @@ class Bot extends StaticEventEmitter {
         this.on('receive', (msg, client) => {
             if (!msg.hasOwnProperty('m')) return;
             this.emit('update username', msg, client);
+            this.emit('update color', msg, client);
 
             switch (msg.m) {
                 case 'a':
@@ -167,8 +168,12 @@ class Bot extends StaticEventEmitter {
             }
         });
 
-        this.on('update username', async (msg, client) => {
+        this.on('update username', async (msg) => {
             await Database.updateName(msg.p._id, msg.p.name);
+        });
+
+        this.on('update color', async (msg) => {
+            await Database.updateColor(msg.p._id, msg.p.color);
         });
 
         return this;

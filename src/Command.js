@@ -11,7 +11,7 @@ class Command extends RegisterObject {
         this.args = args || 0;
         this.rank = rank || 0;
         this.hidden = hidden || false;
-        this.context = context ? typeof context == 'object' ? context : [context] : ['all'];
+        this.context = context ? typeof context == 'object' && Array.isArray(context) ? context : [context] : ['all'];
     }
 
     static getUsage(str, prefix) {
