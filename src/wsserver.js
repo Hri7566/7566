@@ -151,10 +151,6 @@ class WSServer {
 
         this.server.on('connection', (ws, req) => {
             let cl = new WSClient(ws, req);
-            cl.ws.on('message', msg => {
-                this.logger.log(`[${cl.id}] ${msg}`);
-            });
-
             while (cl.user.participantId in this.clients.keys()) {
                 cl.user.participantId = magicRando();
             }

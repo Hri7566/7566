@@ -56,6 +56,18 @@ class Client extends EventEmitter {
         this.started = true;
         this.ws = new WebSocket(this.uri);
 
+        this.ws.addEventListener('open', () => {
+            this.send([{
+                m: 'hi',
+                password: '7566'
+            }]);
+
+            this.send([{
+                m: 'subscribe to admin stream',
+                interval_ms: 1000
+            }]);
+        });
+
         this.ws.addEventListener('close', () => {
             this.stop();
 
